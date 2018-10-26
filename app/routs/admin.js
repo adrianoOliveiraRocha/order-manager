@@ -22,4 +22,11 @@ module.exports = function(application) {
     application.app.control.admin.admin(req, res, application);
   })
 
+  application.get('/profile', function (req, res) {
+    application.app.control.admin.profile(req, res, application);
+  });
+  application.post('/profile', function (req, res) {
+    application.app.control.admin.profile(req, res, application);
+  });
+
 }

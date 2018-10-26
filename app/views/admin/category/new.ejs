@@ -27,32 +27,41 @@
         <% } %>
 
         <div class="row">
-          <div class="col-md-12">
-            <div class="content-box-large">
-              <div class="panel-heading">
-                <div class="panel-title">Nova Categoria</div>
-
-                <!-- <div class="panel-options">
-									<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-									<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-								</div> -->
-
+          <div class="col-md-12 panel-info">
+            <div class="content-box-header panel-heading">
+              <div class="panel-title ">Nova Categoria</div>
+        
+              <div class="panel-options">
+                <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+                <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
               </div>
-
-              <div class="panel-body">
-
-                <%- include('../includes/validation.ejs'); %>
-                <form action="/nova_categoria" method="POST">
-                  <div class="form-group">
-                    <label for="name">Título:</label>
-                    <input type="text" class="form-control" name="title"
-                    value="<%=data.title%>">
+            </div>
+            <div class="content-box-large box-with-header">
+              <%- include('../includes/validation.ejs'); %>
+              <form action="/profile" method="POST">
+                <!-- name  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Título</label>
                   </div>
-
-                  <button type="submit" class="btn btn-primary">Salvar</button>
-
-                </form>
-              </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" 
+                    placeholder="Título" id="title" name="title" 
+                    value="<%= data.title %>">
+                  </div>
+                </div>
+                <hr>
+        
+                <div class="row">
+                  <div class="col-sm-2" style="text-align: center">
+                    <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                  </div>
+        
+                </div>
+                <hr>
+        
+              </form>
+        
             </div>
           </div>
         </div>

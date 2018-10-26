@@ -107,8 +107,9 @@ module.exports.admin = function (req, res, applicationl) {
 }
 
 module.exports.profile = function (req, res, application) {
+  var msg = req.session.message;
+  req.session.message = '';
   if (req.method === 'GET') {
-
     var connection = application.config.connect();
     var user = new application.app.models.User(connection);
     user.getLogedUser(req.session.user.id,
@@ -116,8 +117,6 @@ module.exports.profile = function (req, res, application) {
         if (error) {
           res.send(error);
         } else {
-          let msg = req.session.message;
-          req.session.message = '';
           logedUser = result[0];
           res.render('admin/profile.ejs',
             {
@@ -140,6 +139,7 @@ module.exports.profile = function (req, res, application) {
         {
           user: req.session.user,
           validation: errors,
+          msg: msg,
         });
     } else {
       currentData = req.session.user;

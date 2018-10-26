@@ -24,84 +24,147 @@
 				<% } %>
 
 				<div class="row">
-					<div class="col-md-12">
-						<div class="content-box-large">
-		  				<div class="panel-heading">
-								<div class="panel-title">Formulário</div>
-								
-								<!-- <div class="panel-options">
-									<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-									<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
-								</div> -->
-
+					<div class="col-md-12 panel-info">
+						<div class="content-box-header panel-heading">
+							<div class="panel-title ">Meus Dados</div>
+				
+							<div class="panel-options">
+								<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+								<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
 							</div>
-
-						<div class="panel-body">
-							
+						</div>
+						<div class="content-box-large box-with-header">
 							<%- include('includes/validation.ejs'); %>
 							<form action="/profile" method="POST">
-								<div class="form-group">
-									<label for="name">Nome:</label>
-									<input type="text" class="form-control" name="name"
-									value="<%= user.name %>">
+								<!-- name  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Nome</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" placeholder="Nome" 
+										id="name" name="name" value="<%= user.name %>">
+									</div>
+								</div>							
+								<hr>
+
+								<!-- email  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">E-Mail</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="email" class="form-control" placeholder="E-Mail" 
+										id="email" name="email" value="<%= user.email %>">
+									</div>
+								</div>							
+								<hr>
+
+								<!-- password  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Senha</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" 
+										placeholder="Senha" id="pwd" name="pwd" 
+										value="<%= user.password %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="email">Email:</label>
-									<input type="email" class="form-control" name="email"
-									value="<%= user.email %>">
+								<hr>
+
+								<!-- cpf  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">CPF</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="number" class="form-control" 
+										placeholder="CPF" id="cpf" name="cpf"
+										value="<%= user.cpf %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="pwd">Senha:</label>
-									<input type="password" class="form-control" name="pwd"
-									value="<%= user.password %>">
+								<hr>
+
+								<!-- public place  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Logradouro</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" 
+										placeholder="Logradouro" id="public_place" name="public_place"
+										value="<%= user.public_place %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="cpf">CPF:</label>
-									<input type="text" class="form-control" name="cpf"
-									value="<%= user.cpf %>">
+								<hr>
+
+								<!-- number  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Número</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="number" class="form-control" 
+										placeholder="Número" id="number" name="number"
+										value="<%= user.number %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="public_place">Logradouro:</label>
-									<input type="text" class="form-control" name="public_place"
-									value="<%= user.public_place %>">
+								<hr>
+
+								<!-- cep  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">CEP</label>
+									</div>
+									<div class="col-sm-2">
+										<input type="number" class="form-control" placeholder="CEP" 
+										id="cep" name="cep" value="<%= user.cep %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="number">Número:</label>
-									<input type="number" class="form-control" name="number"
-									value="<%= user.number %>">
+								<hr>
+
+								<!-- complement  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Complemento</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" 
+										placeholder="Complemento" id="complement" name="complement"
+										value="<%= user.complement %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="cep">CEP:</label>
-									<input type="number" class="form-control" name="cep"
-									value="<%= user.cep %>">
+								<hr>
+
+								<!-- neighborhood  -->
+								<div class="row">
+									<div class="col-sm-3" style="text-align: center">
+										<label class="form-control">Bairro</label>
+									</div>
+									<div class="col-sm-9">
+										<input type="text" class="form-control" 
+										placeholder="Bairro" id="neighborhood" name="neighborhood"
+										value="<%= user.neighborhood %>">
+									</div>
 								</div>
-								<div class="form-group">
-									<label for="complement">Complemento:</label>
-									<input type="text" class="form-control" name="complement"
-									value="<%= user.complement %>">
+								<hr>
+
+								<div class="row">
+									<div class="col-sm-2" style="text-align: center">
+										<input class="form-control btn btn-primary" 
+										type="submit" value="Editar"/>
+									</div>
+									
 								</div>
-								<div class="form-group">
-									<label for="neighborhood">Bairro:</label>
-									<input type="text" class="form-control" name="neighborhood"
-									value="<%= user.neighborhood %>">
-								</div>
-								<div class="form-group">
-									<label for="city">Cidade:</label>
-									<input type="text" class="form-control" name="city"
-									value="<%= user.city %>">
-								</div>
-								<div class="form-group">
-									<label for="state">Estado:</label>
-									<input type="text" class="form-control" name="state"
-									value="<%= user.state %>">
-								</div>
-																
-								<button type="submit" class="btn btn-primary">Editar</button>
-							</form>
+								<hr>
+
+							</form>					
+				
 						</div>
-		  			</div>
 					</div>
 				</div>
+			</div>
 	  		
 		  </div>
 		</div>

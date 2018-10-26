@@ -28,7 +28,6 @@ class User {
     , number = '${newData.number}', cep = '${newData.cep}'
     , complement = '${newData.complement}'
     , neighborhood = '${newData.neighborhood}'
-    , city = '${newData.city}', state = '${newData.state}'
      where id = ${currentData.id}`;
 
     this._connection.query(stm, callback);
