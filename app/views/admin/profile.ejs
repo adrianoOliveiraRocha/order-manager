@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('includes/linkscssprofile.ejs'); %>
+  </head>
+  <body>
+
+  	<%- include('includes/head.ejs'); %>
+
+    <div class="page-content">
+    	<div class="row">
+
+		  <%- include('includes/leftcolumn.ejs'); %>
+			
+		  <div class="col-md-10">
+
+				<% if(msg){ %>
+				<div class="alert alert-success alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Sucesso!</strong> <%=msg%>
+				</div>
+				<% } %>
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="content-box-large">
+		  				<div class="panel-heading">
+								<div class="panel-title">Formulário</div>
+								
+								<!-- <div class="panel-options">
+									<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+									<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+								</div> -->
+
+							</div>
+
+						<div class="panel-body">
+							
+							<%- include('includes/validation.ejs'); %>
+							<form action="/profile" method="POST">
+								<div class="form-group">
+									<label for="name">Nome:</label>
+									<input type="text" class="form-control" name="name"
+									value="<%= user.name %>">
+								</div>
+								<div class="form-group">
+									<label for="email">Email:</label>
+									<input type="email" class="form-control" name="email"
+									value="<%= user.email %>">
+								</div>
+								<div class="form-group">
+									<label for="pwd">Senha:</label>
+									<input type="password" class="form-control" name="pwd"
+									value="<%= user.password %>">
+								</div>
+								<div class="form-group">
+									<label for="cpf">CPF:</label>
+									<input type="text" class="form-control" name="cpf"
+									value="<%= user.cpf %>">
+								</div>
+								<div class="form-group">
+									<label for="public_place">Logradouro:</label>
+									<input type="text" class="form-control" name="public_place"
+									value="<%= user.public_place %>">
+								</div>
+								<div class="form-group">
+									<label for="number">Número:</label>
+									<input type="number" class="form-control" name="number"
+									value="<%= user.number %>">
+								</div>
+								<div class="form-group">
+									<label for="cep">CEP:</label>
+									<input type="number" class="form-control" name="cep"
+									value="<%= user.cep %>">
+								</div>
+								<div class="form-group">
+									<label for="complement">Complemento:</label>
+									<input type="text" class="form-control" name="complement"
+									value="<%= user.complement %>">
+								</div>
+								<div class="form-group">
+									<label for="neighborhood">Bairro:</label>
+									<input type="text" class="form-control" name="neighborhood"
+									value="<%= user.neighborhood %>">
+								</div>
+								<div class="form-group">
+									<label for="city">Cidade:</label>
+									<input type="text" class="form-control" name="city"
+									value="<%= user.city %>">
+								</div>
+								<div class="form-group">
+									<label for="state">Estado:</label>
+									<input type="text" class="form-control" name="state"
+									value="<%= user.state %>">
+								</div>
+																
+								<button type="submit" class="btn btn-primary">Editar</button>
+							</form>
+						</div>
+		  			</div>
+					</div>
+				</div>
+	  		
+		  </div>
+		</div>
+    </div>
+
+		<%- include('includes/footer.ejs'); %>
+
+		<%- include('includes/linksjsprofile.ejs'); %>
+		
+  </body>
+</html>

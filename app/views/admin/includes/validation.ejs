@@ -1,0 +1,23 @@
+<% if(validation.length > 0){ %>
+
+<div class="alert alert-danger">
+  
+  <strong>Ops!</strong> Por favor,
+  corrija
+  <% if(validation.length > 1) { %>
+  os seguintes erros:
+  <%} else {%>
+  o seguinte erro:
+  <% } %>
+  <p></p><p></p>
+  <ul class="list-group">
+    <% for(let i = 0; i < validation.length; i++){%>
+    <li class="list-group-item list-group-item-danger">
+      <%= validation[i].msg %>
+    </li>
+    <% } %>
+  </ul>
+
+</div>
+
+<% } %>

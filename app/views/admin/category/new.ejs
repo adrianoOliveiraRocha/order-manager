@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../includes/linkscssprofile.ejs'); %>
+</head>
+
+<body>
+
+  <%- include('../includes/head.ejs'); %>
+
+  <div class="page-content">
+    <div class="row">
+
+      <%- include('../includes/leftcolumn.ejs'); %>
+
+      <div class="col-md-10">
+
+        <% if(msg){ %>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Sucesso!</strong>
+          <%=msg%>
+        </div>
+        <% } %>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-box-large">
+              <div class="panel-heading">
+                <div class="panel-title">Nova Categoria</div>
+
+                <!-- <div class="panel-options">
+									<a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+									<a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+								</div> -->
+
+              </div>
+
+              <div class="panel-body">
+
+                <%- include('../includes/validation.ejs'); %>
+                <form action="/nova_categoria" method="POST">
+                  <div class="form-group">
+                    <label for="name">Título:</label>
+                    <input type="text" class="form-control" name="title"
+                    value="<%=data.title%>">
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Salvar</button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <%- include('../includes/footer.ejs'); %>
+
+  <%- include('../includes/linksjsprofile.ejs'); %>
+
+</body>
+
+</html>
