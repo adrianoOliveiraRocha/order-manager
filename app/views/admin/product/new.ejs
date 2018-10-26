@@ -41,149 +41,87 @@
             <div class="content-box-large box-with-header">
               
               <div>  
-                <!-- name  -->
-                <div class="row">
-                  <div class="col-sm-3" style="text-align: center">
-                    <label class="form-control">Nome</label>
-                  </div>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" placeholder="Nome"
-                    id="name" name="name">
-                  </div>
-                </div>
-        
-                <hr>
+                <form action="novo_produto" method="POST" 
+                enctype="multipart/form-data">
+                  <!-- name  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Nome</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" placeholder="Nome"
+                      id="name" name="name">
+                    </div>
+                  </div>        
+                  <hr>
 
-                <!-- description  -->
-                <div class="row">
-                  <div class="col-sm-3" style="text-align: center">
-                    <label class="form-control">Descrição</label>
+                  <!-- description  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Descrição</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <textarea type="text" class="form-control" placeholder="Descrição" 
+                      id="description" name="description" rows="3"></textarea>
+                    </div>
+                  </div>                
+                  <hr>                
+                  <!-- price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço" 
+                      id="price" name="price">
+                    </div>                  
+                  </div>                
+                  <hr>
+                  <!-- promotional price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço Promocional</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço Promocional" 
+                      id="price" name="price">
+                    </div>
                   </div>
-                  <div class="col-sm-9">
-                    <textarea type="text" class="form-control" placeholder="Descrição" 
-                    id="description" name="description" rows="3"></textarea>
-                  </div>
-                </div>
-                
-                <hr>                
-                <!-- price  -->
-                <div class="row">
-                  <div class="col-sm-2" style="text-align: center">
-                    <label class="form-control">Preço</label>
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="text" class="form-control" placeholder="Preço" 
-                    id="price" name="price">
-                  </div>
-                  <div class="col-sm-4" style="text-align: center">
-                    <label class="form-control">Preço Promocional</label>
-                  </div>
-                  <div class="col-sm-3">
-                    <input type="text" class="form-control" 
-                    placeholder="Preço Promocional" id="promotional_price" 
-                    name="promotional_price">
-                  </div>
-                </div>
-                
-                <hr>
+                  <hr>
 
-                <!-- quantity  -->
-                <div class="row">
-                  <div class="col-sm-12" style="text-align: center">
-                    <label class="form-control">Quantidade</label>
+                  <!-- image  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Imagem</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="file" class="form-control" 
+                        id="image" name="image">
+                    </div>
                   </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-2" style="text-align: center">
+                      <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                    </div>
                   
-                </div>
-                
-                <div class="row">
-                  <div class="col-sm-2">
-                    <input type="button" class="form-control btn btn-primary" 
-                    data-toggle="modal" data-target="#modalAddUnits" value="Inserir">
                   </div>
-                  <div class="col-sm-10">
-                    <table class="table" class='form-control' id="contentUnit">
-                      
-                    </table>
-                  </div>                  
-                </div>
+                  <hr>
 
-                               
+                </form>
+
                 
-                <hr>
-
             </div>
 
           </div>
-        </div>
 
-        <!-- The Modal -->
-        <div class="modal" id="modalAddUnits">
-          <div class="modal-dialog">
-            <div class="modal-content">
-        
-              <!-- Modal Header -->
-              <div class="modal-header">
-                <h4 class="modal-title">Adicionar Unidades</h4>
-                
-              </div>
-        
-              <!-- Modal body -->
-              <div class="modal-body">
-                
-                <table class="table">
-                  <tr>
-                    <td><label class="form-control" style="text-align: center">
-                      Quantidade</label></td>
-                    <td><input class="form-control" type="number"
-                      id="quantity" name="quantity"></td>
-                  </tr>
-                  <tr>
-                    <td><label class="form-control" style="text-align: center">
-                      Côr</label></td>
-                    <td>
-                      <%- include('../includes/coloroptions.ejs');%>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><label class="form-control" style="text-align: center">
-                      Tamanho</label></td>
-                    <td>
-                      <select class="form-control" name="size" id="size">
-                        <option></option>
-                        <option>PP</option>
-                        <option>P</option>
-                        <option>M</option>
-                        <option>G</option>
-                        <option>GG</option>
-                      </select>
-                    </td>
-                  </tr>
-                </table>
-
-              </div>
-        
-              <!-- Modal footer -->
-              <div class="modal-footer">
-                <div>
-                  <button type="button" class="btn btn-primary"
-                  onclick="saveUnits();" data-dismiss="modal">
-                    Salvar</button>
-                  <button type="button" class="btn btn-secondary"
-                  onclick="clearUnits();">
-                    Limpar</button>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">
-                    Cancelar</button>  
-                  
-                </div>
-                
-              </div>
-        
-            </div>
-          </div>
-        </div>
+        </div>              
 
       </div>
+
     </div>
+
   </div>
 
   <%- include('../includes/footer.ejs'); %>
