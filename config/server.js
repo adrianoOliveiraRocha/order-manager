@@ -1,4 +1,5 @@
 var express = require('express');
+var fileUpload = require('express-fileupload');
 var consign = require('consign');
 var bodyParser = require('body-parser');
 // var cookieParser = require('cookie-parser'); //no need
@@ -25,6 +26,7 @@ var options = {
 };
 var sessionStore = new MySQLStore(options);
 var app = express();
+app.use(fileUpload());
 app.set('view engine', 'ejs'); // Define the template engine
 // Atention! This module is called in app.js. Then, take care with the address
 //of directory views

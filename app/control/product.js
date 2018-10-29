@@ -9,7 +9,8 @@ module.exports.new = function (req, res, application) {
     });
   } else {
     var data = req.body;
-    req.assert('title', 'O campo título é obrigatório!').notEmpty();
+    req.assert('title', 'O campo nome é obrigatório!').notEmpty();
+    req.assert('price', 'O campo preço é obrigatório!').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
       res.render('admin/product/new.ejs', {
@@ -18,9 +19,47 @@ module.exports.new = function (req, res, application) {
         msg: msg
       });
     } else {
+
+      var imageName = '';
+      
+      if (Object.keys(req.files).length > 0) {//image sended
+
+        let prefix = new Date().getTime() + '_';
+        imageName = prefix + req.files.image.name;
+        let image = req.files.image;
+        image.mv(__dirname + '/../../upload/' + imageName, function (err) {
+          if (err) {
+            return res.status(500).send(err);
+          }
+        });
+      }  
+         
+      let price = '';
+      let promotional_price = '';
+
+      try {
+        price = JSON.stringify(data.price);
+        promotional_price = JSON.stringify(data.promotional_price);
+        price = price.replace(',', '.');
+        promotional_price = promotional_price.replace(",", '.');
+        
+      } catch (error) {
+        res.send(error);
+      }
+
+      let stm = `insert into product (title, description, price, 
+      promotional_price, image) 
+      values('${data['title']}', '${data['description']}', 
+      ${price}, ${promotional_price},
+      '${imageName}')`;
+      
+      console.log(typeof(price));
+      console.log(typeof (promotional_price));
+            
       var connection = application.config.connect();
       var product = new application.app.models.Product(connection);
-      product.save(data, function (error, result) {
+
+      product.save(stm, function (error, result) {
         if (error !== null && error.fatal == true) {
           res.send(error.sqlMessage);
         } else {
@@ -28,6 +67,7 @@ module.exports.new = function (req, res, application) {
           res.redirect('/novo_produto');
         }
       });
+
     }
   }
 }

@@ -41,7 +41,8 @@
             <div class="content-box-large box-with-header">
               
               <div>  
-                <form action="novo_produto" method="POST" 
+                <%- include('../includes/validation.ejs'); %>
+                <form action="/novo_produto" method="POST" 
                 enctype="multipart/form-data">
                   <!-- name  -->
                   <div class="row">
@@ -50,7 +51,7 @@
                     </div>
                     <div class="col-sm-9">
                       <input type="text" class="form-control" placeholder="Nome"
-                      id="name" name="name">
+                      id="title" name="title" value="<%=data.title%>">
                     </div>
                   </div>        
                   <hr>
@@ -62,7 +63,9 @@
                     </div>
                     <div class="col-sm-9">
                       <textarea type="text" class="form-control" placeholder="Descrição" 
-                      id="description" name="description" rows="3"></textarea>
+                      id="description" name="description" rows="3" wrap="hard">
+                      <%=data.description%>
+                      </textarea>
                     </div>
                   </div>                
                   <hr>                
@@ -73,7 +76,7 @@
                     </div>
                     <div class="col-sm-3">
                       <input type="text" class="form-control" placeholder="Preço" 
-                      id="price" name="price">
+                      id="price" name="price" value="<%=data.price%>">
                     </div>                  
                   </div>                
                   <hr>
@@ -84,7 +87,7 @@
                     </div>
                     <div class="col-sm-3">
                       <input type="text" class="form-control" placeholder="Preço Promocional" 
-                      id="price" name="price">
+                      id="price" name="promotional_price" value="<%=data.promotional_price%>">
                     </div>
                   </div>
                   <hr>
