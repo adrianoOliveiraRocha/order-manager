@@ -8,10 +8,10 @@ module.exports = function (application) {
   application.get('/exibir_produtos', function (req, res) {
     application.app.control.product.show(req, res, application);
   });
-  application.get('/detalhes', function (req, res) {
+  application.get('/detalhes_produto', function (req, res) {
     application.app.control.product.detail(req, res, application);
   });
-  application.post('/detalhes', function (req, res) {
+  application.post('/detalhes_produto', function (req, res) {
     application.app.control.product.detail(req, res, application);
   });
 }

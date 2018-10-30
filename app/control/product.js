@@ -26,7 +26,7 @@ module.exports.new = function (req, res, application) {
         let prefix = new Date().getTime() + '_';
         imageName = prefix + req.files.image.name;
         let image = req.files.image;
-        image.mv(__dirname + '/../../upload/product_images/' + imageName, function (err) {
+        image.mv(__dirname + '/../public/upload/product_images/' + imageName, function (err) {
           if (err) {
             return res.status(500).send(err);
           }
@@ -100,12 +100,12 @@ module.exports.show = function (req, res, application) {
   var msg = req.session.message;
   req.session.message = '';
   var connection = application.config.connect();
-  var category = new application.app.models.Category(connection);
-  var data = category.show(function (error, result) {
+  var product = new application.app.models.Product(connection);
+  var data = product.show(function (error, result) {
     if (error !== null && error.fatal == true) {
       res.send(error.sqlMessage);
     } else {
-      res.render('admin/category/show.ejs', {
+      res.render('admin/product/show.ejs', {
         data: result,
         msg: msg
       });
@@ -118,30 +118,30 @@ module.exports.detail = function (req, res, application) {
   req.session.message = '';
   var id = req.query.id;
   var connection = application.config.connect();
-  var category = new application.app.models.Category(connection);
-  category.getThis(id, function (error, result) {
+  var product = new application.app.models.Product(connection);
+  product.getThis(id, function (error, result) {
     if (error !== null && error.fatal == true) {
       res.send(error.sqlMessage);
     } else {
       if (req.method == 'GET') {
-        res.render('admin/category/detail.ejs', {
+        res.render('admin/product/detail.ejs', {
           data: result[0],
           msg: msg,
           validation: {}
         });
       } else {
-        editCategory(req, res, category, result[0], msg);
+        editProduct(req, res, product, result[0], msg);
       }
     }
   });
 }
 
-function editCategory(req, res, category, result, msg) {
+function editProduct(req, res, product, result, msg) {
   var data = req.body;
   req.assert('title', 'O campo título é obrigatório!').notEmpty();
   var errors = req.validationErrors();
   if (errors) {
-    res.render('admin/category/detail.ejs', {
+    res.render('admin/product/detail.ejs', {
       data: data,
       validation: errors,
       msg: msg
@@ -149,16 +149,16 @@ function editCategory(req, res, category, result, msg) {
   } else {
     if (data.title === result.title) {
       req.session.message = 'Você não fez nehuma mudança';
-      res.redirect('/exibir_categorias');
+      res.redirect('/exibir_product');
     } else {
-      var stm = `update category set title = '${data.title}'
+      var stm = `update product set title = '${data.title}'
       where id = ${result.id}`;
-      category.update(stm, function (error) {
+      product.update(stm, function (error) {
         if (error !== null && error.fatal == true) {
           res.send(error.sqlMessage);
         } else {
           req.session.message = 'Atualização realizada com sucesso!';
-          res.redirect('/exibir_categorias');
+          res.redirect('/exibir_productos');
         }
       });
     }
