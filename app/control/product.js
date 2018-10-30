@@ -10,7 +10,6 @@ module.exports.new = function (req, res, application) {
   } else {
     var data = req.body;
     req.assert('title', 'O campo nome é obrigatório!').notEmpty();
-    req.assert('price', 'O campo preço é obrigatório!').notEmpty();
     var errors = req.validationErrors();
     if (errors) {
       res.render('admin/product/new.ejs', {
@@ -27,31 +26,58 @@ module.exports.new = function (req, res, application) {
         let prefix = new Date().getTime() + '_';
         imageName = prefix + req.files.image.name;
         let image = req.files.image;
-        image.mv(__dirname + '/../../upload/' + imageName, function (err) {
+        image.mv(__dirname + '/../../upload/product_images/' + imageName, function (err) {
           if (err) {
             return res.status(500).send(err);
           }
         });
       }  
          
-      let price = '';
+      let price = null;
+      let small_price = null;
+      let large_price = null;
       let promotional_price = null;
 
-      try {
-        price = JSON.stringify(data.price);
-        price = price.replace(',', '.');
-        if (data.promotional_price.length > 0) {
-          promotional_price = JSON.stringify(data.promotional_price);
-          promotional_price = promotional_price.replace(",", '.');
+      if (data.price.length > 0) {
+        try {
+          price = JSON.stringify(data.price);
+          price = price.replace(',', '.');
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        res.send(error);
       }
 
-      let stm = `insert into product (title, description, price, 
-      promotional_price, image) 
+      if (data.small_price.length > 0) {
+        try {
+          small_price = JSON.stringify(data.small_price);
+          small_price = small_price.replace(',', '.');
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      if (data.large_price.length > 0) {
+        try {
+          large_price = JSON.stringify(data.large_price);
+          large_price = large_price.replace(',', '.');
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      if (data.promotional_price.length > 0) {
+        try {
+          promotional_price = JSON.stringify(data.promotional_price);
+          promotional_price = promotional_price.replace(',', '.');
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      let stm = `insert into product (title, description, price, small_price,
+      large_price, promotional_price, image) 
       values('${data['title']}', '${data['description']}', 
-      ${price}, ${promotional_price},
+      ${price}, ${small_price}, ${large_price}, ${promotional_price},
       '${imageName}')`;
       
       var connection = application.config.connect();
