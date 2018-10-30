@@ -30,10 +30,10 @@
           <div class="col-md-12">
             <div class="content-box-large">
               <div class="panel-heading">
-                <div class="panel-title">Detalhes</div>
+                <div class="panel-title">Detalhes do Produto</div>
 
               </div>
-
+              
               <div class="panel-body">
                 <%- include('../includes/validation.ejs'); %>
                 <form action="/detalhes_produto?id=<%=data.id%>" 
@@ -108,21 +108,30 @@
                     </div>
                   </div>
                   <hr>
-                  
+                  <% if(data.image !== 'null'){ %>
                   <!-- image  -->
                   <div class="row">
                     <div class="col-sm-3" style="text-align: center">
                       <label class="form-control">Imagem</label>
                     </div>
                     <div class="col-sm-3">
-                      <img src="/upload/product_images/<%=data.image %>"/>                      
+                      <img src="/upload/product_images/<%=data.image %>" 
+                      width="240px;">                      
                     </div>
                   </div>
                   <hr>
+                  <% } %>
+
                   <!-- image  -->
                   <div class="row">
                     <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Imagem</label>
+                      <label class="form-control">
+                        <% if(data.image !== 'null') { %>
+                          Substituir Imagem
+                        <% }else{ %>
+                          Imagem
+                        <% } %>
+                      </label>
                     </div>
                     <div class="col-sm-3">
                       <input type="file" class="form-control" 
