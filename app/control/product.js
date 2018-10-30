@@ -20,7 +20,7 @@ module.exports.new = function (req, res, application) {
       });
     } else {
 
-      var imageName = '';
+      var imageName = null;
       
       if (Object.keys(req.files).length > 0) {//image sended
 
@@ -35,14 +35,15 @@ module.exports.new = function (req, res, application) {
       }  
          
       let price = '';
-      let promotional_price = '';
+      let promotional_price = null;
 
       try {
         price = JSON.stringify(data.price);
-        promotional_price = JSON.stringify(data.promotional_price);
         price = price.replace(',', '.');
-        promotional_price = promotional_price.replace(",", '.');
-        
+        if (data.promotional_price.length > 0) {
+          promotional_price = JSON.stringify(data.promotional_price);
+          promotional_price = promotional_price.replace(",", '.');
+        }
       } catch (error) {
         res.send(error);
       }
@@ -53,9 +54,6 @@ module.exports.new = function (req, res, application) {
       ${price}, ${promotional_price},
       '${imageName}')`;
       
-      console.log(typeof(price));
-      console.log(typeof (promotional_price));
-            
       var connection = application.config.connect();
       var product = new application.app.models.Product(connection);
 
@@ -88,6 +86,7 @@ module.exports.show = function (req, res, application) {
     }
   });
 }
+
 module.exports.detail = function (req, res, application) {
   var msg = req.session.message;
   req.session.message = '';
@@ -110,6 +109,7 @@ module.exports.detail = function (req, res, application) {
     }
   });
 }
+
 function editCategory(req, res, category, result, msg) {
   var data = req.body;
   req.assert('title', 'O campo título é obrigatório!').notEmpty();
