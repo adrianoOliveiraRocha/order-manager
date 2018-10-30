@@ -2,11 +2,25 @@ module.exports.new = function (req, res, application) {
   var msg = req.session.message;
   req.session.message = '';
   if (req.method == 'GET') {
-    res.render('admin/product/new.ejs', {
-      data: {},
-      validation: {},
-      msg: msg,
-    });
+
+    var connection = application.config.connect();
+    var category = new application.app.models.Category(connection);
+
+    category.getAllCategories(
+      function (error, result) {
+        if (error) {
+          console.log(error);
+        } else {
+          res.render('admin/product/new.ejs', {
+            data: {},
+            validation: {},
+            msg: msg,
+            categories: result,
+          });
+        }
+      }
+    );   
+
   } else {
     var data = req.body;
     req.assert('title', 'O campo nome é obrigatório!').notEmpty();

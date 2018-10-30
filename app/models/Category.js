@@ -19,6 +19,9 @@ class Category {
     console.log(stm);
     this._connection.query(stm, callback);
   }
+  getAllCategories(callback){
+    this._connection.query('select * from category', callback);    
+  }
 }
 module.exports = function () {
   return Category;
