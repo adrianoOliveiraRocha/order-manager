@@ -37,6 +37,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(expressValidator());
 app.use(express.static('./app/public'));
+app.use('/upload', express.static('./app/public/upload'));
 app.use(expressSession({
   cookieName: 'expressSession',
   secret: 'weareprogrammers-frombrazil-thatisweareit',
