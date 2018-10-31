@@ -8,10 +8,11 @@ module.exports.new = function (req, res, application) {
 
     category.getAllCategories(
       function (error, result) {
-        if (error) {
-          console.log(error);
+        if (error !== null && error.fatal == true) {
+          console.log(error.sqlMessage);
         } else {
-          res.render('admin/product/new.ejs', {
+          res.render('admin/product/new.ejs', 
+          {
             data: {},
             validation: {},
             msg: msg,
@@ -45,6 +46,7 @@ module.exports.new = function (req, res, application) {
             return res.status(500).send(err);
           }
         });
+
       }  
          
       let price = null;
@@ -89,10 +91,10 @@ module.exports.new = function (req, res, application) {
       }
 
       let stm = `insert into product (title, description, price, small_price,
-      large_price, promotional_price, image) 
+      large_price, promotional_price, category, image) 
       values('${data['title']}', '${data['description']}', 
-      ${price}, ${small_price}, ${large_price}, ${promotional_price},
-      '${imageName}')`;
+      ${price}, ${small_price}, ${large_price}, ${promotional_price}, 
+      '${data['category']}', '${imageName}')`;
       
       var connection = application.config.connect();
       var product = new application.app.models.Product(connection);
@@ -152,29 +154,124 @@ module.exports.detail = function (req, res, application) {
 
 function editProduct(req, res, product, result, msg) {
   var data = req.body;
+
+  if (!data.image) { 
+    data.image = result.image; 
+  } else if (data.image == '') {
+    data.image = null;
+  }
+
   req.assert('title', 'O campo título é obrigatório!').notEmpty();
   var errors = req.validationErrors();
-  if (errors) {
+  if (errors) {    
     res.render('admin/product/detail.ejs', {
       data: data,
       validation: errors,
       msg: msg
     });
   } else {
-    if (data.title === result.title) {
-      req.session.message = 'Você não fez nehuma mudança';
-      res.redirect('/exibir_product');
-    } else {
-      var stm = `update product set title = '${data.title}'
-      where id = ${result.id}`;
-      product.update(stm, function (error) {
-        if (error !== null && error.fatal == true) {
-          res.send(error.sqlMessage);
+    const keys = Object.keys(data);
+    for(const key of keys){
+      if (data[key] == '') {
+        data[key] = null;
+      }
+    }   
+    let changed = false;
+    let q = `update product set `;
+
+    if (data.title != result.title) {
+      q = q + `title = '${data.title}' `;
+      changed = true;
+    }
+
+    if (data.description != result.description) {
+      if (changed == true) {
+        q = q + `, description = '${data.description}' `;  
+      } else {
+        q = q + `description = '${data.description}' `;
+        changed = true;
+      }      
+    }
+
+    if (data.price != result.price) {
+      if (changed == true) {
+        q = q + `, price = ${data.price} `;
+      } else {
+        q = q + `price = ${data.price} `;
+        changed = true;
+      }  
+    }
+
+    if (data.small_price != result.small_price) {
+      if (changed == true) {
+        q = q + `, small_price = ${data.small_price} `;
+      } else {
+        q = q + `small_price = ${data.small_price} `;
+        changed = true;
+      }  
+    }
+
+    if (data.large_price != result.large_price) {
+      if (changed == true) {
+        q = q + `, large_price = ${data.large_price} `;
+      } else {
+        q = q + `large_price = ${data.large_price} `;
+        changed = true;
+      }  
+    }
+
+    if (data.promotional_price != result.promotional_price) {
+      if (changed == true) {
+        q = q + `, promotional_price = ${data.promotional_price} `;
+      } else {
+        q = q + `promotional_price = ${data.promotional_price} `;
+        changed = true;
+      }  
+    }
+
+    if (data.image != null) {
+
+      let prefix = new Date().getTime() + '_';
+      imageName = prefix + req.files.image.name;
+      let image = req.files.image;
+      image.mv(__dirname + '/../public/upload/product_images/' + imageName, function (err) {
+        if (err) {
+          return res.status(500).send(err);
         } else {
-          req.session.message = 'Atualização realizada com sucesso!';
-          res.redirect('/exibir_productos');
+          let oldFile = __dirname + '/../public/upload/product_images/' + result.image;
+          const fs = require('fs');
+          fs.unlink(oldFile, function(err){
+            if(err) {
+              return res.status(500).send(err);
+            } else {
+              console.log('File deleted with success!');
+            }            
+          })
         }
       });
+
+      if (changed == true) {
+        q = q + `, image = '${imageName}' `;
+      } else {
+        q = q + `image = '${imageName}' `;
+        changed = true;
+      } 
+
+    }
+
+    if (changed) {
+      q = q + ` where id = ${result.id}`;
+      product.update(q, function(error, result){
+        if (error) {
+          res.send(error.sqlMessage);
+        } else {
+          req.session.message = 'Alteração realizada com sucesso!';
+          res.redirect('/exibir_produtos');
+        }
+      });
+    } else {
+      req.session.message = 'Nenhuma alteração detectada!';
+      res.redirect('/exibir_produtos');
     }
   }
 }
