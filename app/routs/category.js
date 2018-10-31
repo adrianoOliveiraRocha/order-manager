@@ -14,4 +14,7 @@ module.exports = function (application) {
   application.post('/detalhes', function (req, res) {
     application.app.control.category.detail(req, res, application);
   });
+  application.get('/delete_category', function (req, res) {
+    application.app.control.category.delete(req, res, application);
+  });
 }

@@ -36,15 +36,37 @@
 
               <div class="panel-body">
                 <%- include('../includes/validation.ejs'); %>
+
                 <form action="/detalhes?id=<%=data.id %>" method="POST">
-                  <div class="form-group">
-                    <input type="hidden" name="id" value="<%= data.id %>">
-                    <label for="name">Título:</label>
-                    <input type="text" class="form-control" name="title" 
-                    value="<%=data.title%>">
+                  <input type="hidden" name="id" value="<%= data.id %>">
+                  <!-- name  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Título</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" placeholder="Título" id="title" name="title" value="<%= data.title %>">
+                    </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Editar</button>
+                  <hr>
+                
+                  <div class="row">
+                    <div class="col-sm-2" style="text-align: center">
+                      <input class="form-control btn btn-primary" 
+                      type="submit" value="Editar" />
+                    </div>
+                    <div class="col-sm-2" style="text-align: center">
+                      <a class="form-control btn btn-danger"
+                      href="/delete_category?id=<%=data.id %>">
+                        Delete
+                      </a>
+                    </div>
+                
+                  </div>
+                  <hr>
+                
                 </form>
+
               </div>
             </div>
             

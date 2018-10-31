@@ -70,6 +70,7 @@ module.exports.detail = function (req, res, application) {
     }
   });
 }
+
 function editCategory(req, res, category, result, msg) {
   var data = req.body;
   req.assert('title', 'O campo título é obrigatório!').notEmpty();
@@ -97,4 +98,52 @@ function editCategory(req, res, category, result, msg) {
       });
     }
   }
+}
+
+module.exports.delete = function (req, res, application){
+  const categoryId = req.query.id;
+  
+  const connection = application.config.connect();
+  const category = new application.app.models.Category(connection);
+  category.getProductsOfThis(categoryId, 
+    function (error, products) {
+      if (error) {
+        res.send(error.sqlMessage);
+      } else {
+        if (products.length) {
+          const keys = Object.keys(products);
+          for (const key of keys) {
+            let oldFile = __dirname + '/../public/upload/product_images/' + products[key].image;
+            const fs = require('fs');
+            fs.unlink(oldFile, function (err) {
+              if (err) {
+                return res.status(500).send(err);
+              } else {
+                category.deleteProduct(products[key].id, 
+                  function(err){
+                    if (err) {
+                      return res.status(500).send(err);
+                    } else {
+                      console.log('File deleted with success!');
+                    }
+                });                
+              }
+            }); //end unlink            
+          }// end for
+        } else {
+          console.log('is empty');
+        }
+      }
+  });
+
+  const stm = `delete from category where id = ${categoryId}`;  
+  category.update(stm, function (error, result) {
+    if (error) {
+      res.send(error.sqlMessage);
+    } else {
+      req.session.message = 'Categoria deletada com sucesso!';
+      res.redirect('/exibir_categorias');
+    }
+  });
+
 }

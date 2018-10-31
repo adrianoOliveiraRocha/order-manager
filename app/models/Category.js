@@ -16,11 +16,18 @@ class Category {
     this._connection.query(stm, callback);
   }
   update(stm, callback) {
-    console.log(stm);
     this._connection.query(stm, callback);
   }
   getAllCategories(callback){
     this._connection.query('select * from category', callback);    
+  }
+  getProductsOfThis(idCatgory, callback){
+    const stm = `select id, image from product where category = ${idCatgory}`;
+    this._connection.query(stm, callback);
+  }
+  deleteProduct(idProduct, callback){
+    const stm = `delete from product where id = '${idProduct}'`;
+    this._connection.query(stm, callback);
   }
 }
 module.exports = function () {
