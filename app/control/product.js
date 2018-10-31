@@ -135,16 +135,24 @@ module.exports.detail = function (req, res, application) {
   var id = req.query.id;
   var connection = application.config.connect();
   var product = new application.app.models.Product(connection);
-  product.getThis(id, function (error, result) {
-    if (error !== null && error.fatal == true) {
+  product.getThis(id, function (error, products) {
+    if (error) {
       res.send(error.sqlMessage);
-    } else {
+    } else {      
       if (req.method == 'GET') {
-        res.render('admin/product/detail.ejs', {
-          data: result[0],
-          msg: msg,
-          validation: {}
-        });
+        const category = new application.app.models.Category(connection);
+        category.getAllCategories(function (error, categories){
+          if (error) {
+            res.send(error.sqlMessage);
+          } else {
+            res.render('admin/product/detail.ejs', {
+              data: products[0],
+              msg: msg,
+              categories: categories,
+              validation: {}
+            });
+          }
+        });        
       } else {
         editProduct(req, res, product, result[0], msg);
       }

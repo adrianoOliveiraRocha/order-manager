@@ -140,7 +140,24 @@
                     </div>
                   </div>
                   <hr>
-                
+
+                  <!-- category -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Categoria</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select name="category" id="category" class="form-control">
+                        <% for(const category of categories){ %>
+                        <option value="<%=category.id %>">
+                          <%=category.title %>
+                        </option>
+                        <% } %>
+                      </select>
+                    </div>
+                  </div>
+                  <hr>
+                  
                   <div class="row">
                     <div class="col-sm-2" style="text-align: center">
                       <input class="form-control btn btn-primary" 
