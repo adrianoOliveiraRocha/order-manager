@@ -117,7 +117,7 @@ module.exports.show = function (req, res, application) {
   req.session.message = '';
   var connection = application.config.connect();
   var product = new application.app.models.Product(connection);
-  var data = product.show(function (error, result) {
+  product.show(function (error, result) {
     if (error !== null && error.fatal == true) {
       res.send(error.sqlMessage);
     } else {
