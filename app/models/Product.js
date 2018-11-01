@@ -18,7 +18,18 @@ class Product {
     this._connection.query(stm, callback);
   }
 
+  getImage(id, callback) {
+    let stm = `select image from product where id = ${id}`;
+    console.log(stm);    
+    this._connection.query(stm, callback);
+  }
+
   update(stm, callback) {
+    this._connection.query(stm, callback);
+  }
+
+  delete(idProduct, callback) {
+    const stm = `delete from product where id = '${idProduct}'`;
     console.log(stm);
     this._connection.query(stm, callback);
   }

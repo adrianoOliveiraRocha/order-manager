@@ -308,6 +308,7 @@ function editProduct(req, res, product, currentProduct) {
           }
         }
       });
+
     }
     
     if (changed) {
@@ -329,4 +330,37 @@ function editProduct(req, res, product, currentProduct) {
     }
     
   }
+}
+
+module.exports.delete = function (req, res, application) {
+
+  var id = req.query.id;
+  const connection = application.config.connect();
+  const product = new application.app.models.Product(connection);
+
+  product.getImage(id, function(errorDel, resultImg){
+    if (errorDel) {
+      res.send('Erro ao tentar deletar a imagem: ' + errorDel);
+    } else {
+      const imageName = resultImg[0].image;
+      let oldFile = __dirname + '/../public/upload/product_images/' + imageName;
+      const fs = require('fs');
+      fs.unlink(oldFile, function (errul) {
+        if (errul) {
+          console.log('error trying delete old image:' + errul.sqlMessage);
+        } else {
+          product.delete(id, function(errorDelProduct, delectedProduct){
+            if (errorDelProduct) {
+              res.send('Error trying delete product: ' + errorDelProduct);
+            } else {
+              console.log('Deleted product: ' + delectedProduct[0]);
+              req.session.message = 'Produto deletado com sucesso!';
+              res.redirect('/exibir_produtos');
+            }
+          });
+        }
+      });
+    }
+  });
+
 }

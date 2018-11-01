@@ -14,4 +14,7 @@ module.exports = function (application) {
   application.post('/edit_product', function (req, res) {
     application.app.control.product.edit(req, res, application);
   });
+  application.get('/delete_product', function (req, res) {
+    application.app.control.product.delete(req, res, application);
+  });
 }
