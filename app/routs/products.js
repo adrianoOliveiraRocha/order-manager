@@ -11,7 +11,7 @@ module.exports = function (application) {
   application.get('/detalhes_produto', function (req, res) {
     application.app.control.product.detail(req, res, application);
   });
-  application.post('/detalhes_produto', function (req, res) {
-    application.app.control.product.detail(req, res, application);
+  application.post('/edit_product', function (req, res) {
+    application.app.control.product.edit(req, res, application);
   });
 }

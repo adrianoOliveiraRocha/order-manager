@@ -36,7 +36,7 @@
               
               <div class="panel-body">
                 <%- include('../includes/validation.ejs'); %>
-                <form action="/detalhes_produto?id=<%=data.id%>" 
+                <form action="/edit_product?id=<%=data.id%>" 
                   method="POST" enctype="multipart/form-data">
                   <!-- name  -->
                   <div class="row">
@@ -123,7 +123,7 @@
                   <hr>
                   <% } %>
 
-                  <!-- image  -->
+                  <!-- changeImage  -->
                   <div class="row">
                     <div class="col-sm-3" style="text-align: center">
                       <label class="form-control">
@@ -136,7 +136,7 @@
                     </div>
                     <div class="col-sm-3">
                       <input type="file" class="form-control" 
-                      id="image" name="image">
+                      name="changeImage">
                     </div>
                   </div>
                   <hr>
@@ -149,7 +149,8 @@
                     <div class="col-sm-3">
                       <select name="category" id="category" class="form-control">
                         <% for(const category of categories){ %>
-                        <option value="<%=category.id %>">
+                        <option value="<%=category.id %>"
+                          <% if(data.category == category.id){ %>selected="selected"<%}%>>
                           <%=category.title %>
                         </option>
                         <% } %>
