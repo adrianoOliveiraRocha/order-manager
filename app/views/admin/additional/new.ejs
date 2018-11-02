@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../includes/linkscssprofile.ejs'); %>
+</head>
+
+<body>
+
+  <%- include('../includes/head.ejs'); %>
+
+  <div class="page-content">
+    <div class="row">
+
+      <%- include('../includes/leftcolumn.ejs'); %>
+
+      <div class="col-md-10">
+
+        <% if(msg){ %>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Mensagem!</strong>
+          <%=msg%>
+        </div>
+        <% } %>
+
+        <div class="row">
+          <div class="col-md-12 panel-info">
+            <div class="content-box-header panel-heading">
+              <div class="panel-title ">Novo Adicional</div>
+
+              <div class="panel-options">
+                <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+                <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+              </div>
+            </div>
+            <div class="content-box-large box-with-header">
+              <%- include('../includes/validation.ejs'); %>
+              <form action="/novo_adicional" method="POST">
+                <!-- name  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Nome</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" 
+                    placeholder="Nome" id="title" 
+                    name="name" value="<%= data.name %>">
+                  </div>
+                </div>
+                <hr>
+
+                <!-- name  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Preço R$</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" 
+                    placeholder="Preço" id="price" name="price" 
+                    value="<%= data.price %>">
+                  </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                  <div class="col-sm-2" style="text-align: center">
+                    <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                  </div>
+
+                </div>
+                <hr>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <%- include('../includes/footer.ejs'); %>
+
+  <%- include('../includes/linksjsprofile.ejs'); %>
+
+</body>
+
+</html>

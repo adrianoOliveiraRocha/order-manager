@@ -60,6 +60,7 @@ module.exports.new = function (req, res, application) {
           price = price.replace(',', '.');
         } catch (error) {
           console.log(error);
+          data.price = 0;
         }
       }
 
