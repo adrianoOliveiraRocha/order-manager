@@ -23,6 +23,7 @@ module.exports.new = function (req, res, application) {
     } else {
 
       const connection = application.config.connect();
+      
       let price = null;
       price = JSON.stringify(data.price);
       price = price.replace(',', '.');
@@ -47,4 +48,109 @@ module.exports.new = function (req, res, application) {
     
   }  
 
+}
+
+module.exports.show = function (req, res, application) {
+  let msg = req.session.message;
+  req.session.message = '';
+
+  const connection = application.config.connect();
+  const additional = new application.app.models.Additional(connection);
+
+  additional.getAll(function (error, result) {
+    if (error) {
+      res.send(error);
+    } else {
+      res.render('admin/additional/show.ejs', {
+        additionais: result,
+        msg: msg,
+      });
+    }
+  });
+}
+
+module.exports.detail = function (req, res, application) {
+  const id = req.query.id;
+  const connection = application.config.connect();
+  const additional = new application.app.models.Additional(connection);
+  additional.getThis(id, function(error, result){
+    if (error) {
+      res.send(error);
+    } else {
+      res.render('admin/additional/detail.ejs', {
+        additional: result[0],
+      });
+    }
+  });
+  
+}
+
+module.exports.edit = function (req, res, application) {
+
+  let msg = req.session.message;
+  req.session.message = '';
+  var data = req.body;
+  req.assert('name', 'O campo nome é obrigatório').notEmpty();
+  req.assert('price', 'O campo preço é obrigatório').notEmpty();
+  const errors = req.validationErrors();
+
+  if (errors) {
+    res.render('admin/additional/edit.ejs', {
+      validation: errors,
+      msg: msg,
+      additional: data
+    });
+  } else {
+    const id = data.id;
+    const connection = application.config.connect();
+    const additional = new application.app.models.Additional(connection);
+
+    additional.getThis(id, function (error, result) {
+      
+      if (error) {
+        res.send(error);
+      } else {
+
+        const currentAdditional = result[0];
+        let changed = false;
+        let q = `update additional set `;
+
+        if (data.name != currentAdditional.name) {
+          q = q + `name = '${data.name}'`;
+          changed = true;
+        }
+
+        if (data.price != currentAdditional.price) {
+          
+          if (changed) {
+            q = q + `, price = ${data.price}`;
+          } else {
+            q = q + `price = '${data.price}'`;
+          }
+          changed = true;
+        }
+
+        if (changed) {
+          q = q + ` where id = ${currentAdditional.id}`;
+          console.log(q);
+          
+          additional.update(q, function (errorSaving, resultSaving) {
+            if (error) {
+              console.log('Error trying to save: ' + errorSaving);
+              req.session.message = 'Os dados não foram aceitos. Por favor, tente novamente!';
+              res.redirect('/exibir_adicionais');
+            } else {
+              console.log('Success: ' + resultSaving);
+              req.session.message = 'Adicional editado com sucesso!';
+              res.redirect('/exibir_adicionais');
+            }
+          });
+        } else {
+          req.session.message = 'Você não fez nenhuma alteração!';
+          res.redirect('/exibir_adicionais');
+        }        
+      }
+    });
+    
+  }
 }

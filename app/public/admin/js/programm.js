@@ -41,3 +41,7 @@ function msgQuantity(quantity) {
     return `${quantity} unidades`;
   }
 }
+
+function replacePoint(element) {
+  element.value = element.value.replace(",", ".");
+}

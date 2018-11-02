@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../includes/linkscssprofile.ejs'); %>
+</head>
+
+<body>
+
+  <%- include('../includes/head.ejs'); %>
+
+  <div class="page-content">
+    <div class="row">
+
+      <%- include('../includes/leftcolumn.ejs'); %>
+
+      <div class="col-md-10">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="content-box-large">
+              <div class="panel-heading">
+                <div class="panel-title">Detalhes</div>
+
+              </div>
+
+              <div class="panel-body">
+                <form action="/edit_additional?id=<%=additional.id %>" 
+                  method="POST">
+                  <input type="hidden" name="id" value="<%= additional.id %>">
+                  <!-- name  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Nome</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" 
+                      placeholder="Nome" id="name" name="name" 
+                      value="<%= additional.name %>">
+                    </div>
+                  </div>
+                  <hr>
+
+                  <!-- price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço R$</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="text" class="form-control" 
+                      placeholder="Nome" id="price" name="price" 
+                      onkeyup="replacePoint(this);"
+                      value="<%= additional.price %>">
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row">
+                    <div class="col-sm-2" style="text-align: center">
+                      <input class="form-control btn btn-primary" type="submit" value="Editar" />
+                    </div>
+                    <div class="col-sm-2" style="text-align: center">
+                      <a class="form-control btn btn-danger" 
+                      href="/delete_additional?id=<%=additional.id %>">
+                        Delete
+                      </a>
+                    </div>
+
+                  </div>
+                  <hr>
+
+                </form>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <%- include('../includes/footer.ejs'); %>
+
+  <%- include('../includes/linksjsprofile.ejs'); %>
+
+</body>
+
+</html>
