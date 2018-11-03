@@ -20,4 +20,8 @@ module.exports = function (application) {
     application.app.control.additional.edit(req, res, application);
   });
 
+  application.post('/delete_additional', function (req, res) {
+    application.app.control.additional.delete(req, res, application);
+  });
+
 }

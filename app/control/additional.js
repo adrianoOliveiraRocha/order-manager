@@ -154,3 +154,10 @@ module.exports.edit = function (req, res, application) {
     
   }
 }
+
+module.exports.delete = function (req, res, application) {
+  const id = req.query.id;
+  const connection = application.config.connect();
+  const additional = new application.app.models.Additional(connection);
+  // definir pedido antes
+}
