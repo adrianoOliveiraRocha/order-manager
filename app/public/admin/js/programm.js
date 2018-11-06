@@ -45,3 +45,15 @@ function msgQuantity(quantity) {
 function replacePoint(element) {
   element.value = element.value.replace(",", ".");
 }
+
+function uniqueFlavor(value) {
+  
+  if (value == 1) {
+    document.getElementById('uniqueFlavor').style.visibility = 'visible';
+    document.getElementById('moreFlavor').style.visibility = 'hidden';
+  } else if(value == 0){
+    document.getElementById('uniqueFlavor').style.visibility = 'hidden';
+    document.getElementById('moreFlavor').style.visibility = 'visible';
+  }
+  
+}

@@ -64,10 +64,42 @@
 
     <div class="container-fluid" style="margin-top: 2%">
       <div class="row">
-        <div class="col-sm-6">
-          col-sm-4
-        </div>
-        
+        <% for(const category of categories) {%>
+        <div class="col-sm-6" style="border-style: solid; border-width: 0.5px;">
+          <h2><%=category.title %></h2>
+          <div style="margin: 5px;">
+            <table class="table">              
+              <% for(const product of menu[category.title]) {%>
+              <tr>
+                <td>
+                  <a href="#">
+                    <%=product.id %>
+                  </a>
+                </td>
+                <td>
+                  <p>
+                    <%=product.title %>
+                  </p>
+                  <p>
+                    <%=product.description %>
+                  </p>
+                </td>
+                <td>
+                  <% if(product.small_price && product.large_price) {%>
+                  <p>pequeno: R$<%=product.small_price %></p>
+                  <p>grande: R$<%=product.large_price %>
+                  </p>
+                  <% } else { %>
+                  R$ <%=product.price %>
+                  <% } %>
+                  
+                </td>
+              </tr>                
+              <% } %>           
+            </table>            
+          </div>          
+        </div>        
+        <% } %>
       </div>
     </div>
 

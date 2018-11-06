@@ -20,10 +20,7 @@ module.exports.index = function (req, res, application) {
             var products = [];
             for (const product of resultProducts) {
               if (category.id == product.category) {
-                console.log(`the product ${product.title} is 
-                from catagory ${category.title}`);
                 products.push(product);
-                console.log(`array of products: ${products}`);
               }
             }            
             menu[category.title] = products;            
@@ -31,14 +28,13 @@ module.exports.index = function (req, res, application) {
           for (const category of resultCategories) {
             console.log(menu[category.title]);
           }          
-          res.send(menu);
-
-          // res.render('core/index.ejs', 
-          // { 
-          //   user: user, 
-          //   categories: resultCategories,
-          //   products: resultProducts, 
-          // });
+          
+          res.render('core/index.ejs', 
+          { 
+            user: user, 
+            categories: resultCategories,
+            menu: menu, 
+          });
         }
       });
     }
