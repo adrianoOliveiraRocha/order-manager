@@ -57,6 +57,7 @@ consign()
   .then('config/connect.js') //you must put the extension
   .then('app/models')
   .then('app/control')
+  .then('app/utils')
   .into(app);
   
 module.exports = app;
