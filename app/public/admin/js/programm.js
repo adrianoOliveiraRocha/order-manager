@@ -47,13 +47,143 @@ function replacePoint(element) {
 }
 
 function uniqueFlavor(value) {
+  var uf = `
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço R$</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" placeholder="Preço" id="price" name="price">
+    </div>
+  </div>
+  <hr>
+  <!-- small price  -->
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Pequeno R$</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price">
+    </div>
+  </div>
+  <hr>
+  <!-- large price  -->
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Grande R$</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price">
+    </div>
+  </div>
+  <hr>
+  <!-- promotional price  -->
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Promocional R$</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price">
+    </div>
+  </div>
+  <hr>
+
+  `;
+
+  var mf = `
+  <div id='receiveAdd' class="row">
+
+  </div>
   
+  <div class="row">
+    
+    <div class="col-sm-2">
+      <input type="button" class="form-control btn-success" 
+      value="Adicionar" onclick='add();'>
+    </div>    
+
+  </div>
+  <hr>  
+  `;
   if (value == 1) {
-    document.getElementById('uniqueFlavor').style.visibility = 'visible';
-    document.getElementById('moreFlavor').style.visibility = 'hidden';
+    document.getElementById('uniqueFlavor').innerHTML = uf;
+    document.getElementById('moreFlavor').innerHTML = '';
+    
   } else if(value == 0){
-    document.getElementById('uniqueFlavor').style.visibility = 'hidden';
-    document.getElementById('moreFlavor').style.visibility = 'visible';
+    document.getElementById('uniqueFlavor').innerHTML = '';
+    document.getElementById('moreFlavor').innerHTML = mf;
   }
   
+}
+
+function add() {
+  var qfform = `
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Quantidade de Sabores</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="number" class="form-control" 
+      placeholder="Quantidade de Sabores" name="qf">
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" 
+      placeholder="Preço" name="priceqf">
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Pequeno</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" 
+      placeholder="Preço Pequeno" name="small_priceqf">
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Grande</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" 
+      placeholder="Preço Grande" name="large_priceqf">
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-3" style="text-align: center">
+      <label class="form-control">Preço Promocional</label>
+    </div>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" 
+      placeholder="Preço Promocional" name="promotional_priceqf">
+    </div>
+  </div>
+  <hr>
+  `;
+
+  var receiveAdd = document.getElementById('receiveAdd');
+  if (receiveAdd.childElementCount > 0) {
+
+    qfform = qfform.replace("qf", "qf" + receiveAdd.childElementCount);
+    qfform = qfform.replace("priceqf", "priceqf" + receiveAdd.childElementCount);
+    qfform = qfform.replace("small_priceqf", "small_priceqf" + receiveAdd.childElementCount);
+    qfform = qfform.replace("large_priceqf", "large_priceqf" + receiveAdd.childElementCount);
+    qfform = qfform.replace("promotional_priceqf", "promotional_priceqf" + receiveAdd.childElementCount);
+    
+  }
+  receiveAdd.innerHTML = receiveAdd.innerHTML + qfform;
+
 }

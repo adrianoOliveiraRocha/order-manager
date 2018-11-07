@@ -40,7 +40,7 @@
 
             <div class="content-box-large box-with-header">
               
-              <div>  
+                
                 <%- include('../includes/validation.ejs'); %>
                 <form action="/novo_produto" method="POST" 
                 enctype="multipart/form-data">
@@ -103,7 +103,6 @@
                     </div>
                     <div class="col-sm-3">
                       <select name="uniqueFlavior" class="form-control" onchange="uniqueFlavor(this.value);">
-                        <option value=""></option>
                         <option value="1">Sim</option>
                         <option value="0">Não</option>
                       </select>
@@ -151,24 +150,25 @@
                         <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price" value="<%=data.promotional_price%>">
                       </div>
                     </div>
-                    <hr>
-
-                    <div class="row">
-                      <div class="col-sm-2" style="text-align: center">
-                        <input class="form-control btn btn-primary" type="submit" value="Salvar" />
-                      </div>
-                    
-                    </div>
-                    <hr>
+                    <hr>                   
 
                   </div> <!-- end only flavor --> 
 
-                                 
+                  <div id="moreFlavor">
+                    
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-sm-2" style="text-align: center">
+                      <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                    </div>
+                  
+                  </div>
+                  <hr>
 
                 </form>
 
-                
-            </div>
+                               
 
           </div>
 
