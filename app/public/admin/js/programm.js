@@ -53,7 +53,8 @@ function uniqueFlavor(value) {
       <label class="form-control">Preço R$</label>
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" placeholder="Preço" id="price" name="price">
+      <input type="text" class="form-control" placeholder="Preço" id="price" name="price"
+      onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -63,7 +64,8 @@ function uniqueFlavor(value) {
       <label class="form-control">Preço Pequeno R$</label>
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price">
+      <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price"
+      onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -73,7 +75,8 @@ function uniqueFlavor(value) {
       <label class="form-control">Preço Grande R$</label>
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price">
+      <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price"
+      onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -83,11 +86,11 @@ function uniqueFlavor(value) {
       <label class="form-control">Preço Promocional R$</label>
     </div>
     <div class="col-sm-3">
-      <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price">
+      <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price"
+      onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
-
   `;
 
   var mf = `
@@ -105,6 +108,7 @@ function uniqueFlavor(value) {
   </div>
   <hr>  
   `;
+
   if (value == 1) {
     document.getElementById('uniqueFlavor').innerHTML = uf;
     document.getElementById('moreFlavor').innerHTML = '';
@@ -135,7 +139,7 @@ function add() {
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" 
-      placeholder="Preço" name="priceqf">
+      placeholder="Preço" name="priceqf" onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -146,7 +150,7 @@ function add() {
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" 
-      placeholder="Preço Pequeno" name="small_priceqf">
+      placeholder="Preço Pequeno" name="small_priceqf" onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -157,7 +161,7 @@ function add() {
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" 
-      placeholder="Preço Grande" name="large_priceqf">
+      placeholder="Preço Grande" name="large_priceqf" onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
@@ -168,13 +172,14 @@ function add() {
     </div>
     <div class="col-sm-3">
       <input type="text" class="form-control" 
-      placeholder="Preço Promocional" name="promotional_priceqf">
+      placeholder="Preço Promocional" name="promotional_priceqf" onkeyup="replacePoint(this);">
     </div>
   </div>
   <hr>
   `;
 
   var receiveAdd = document.getElementById('receiveAdd');
+  
   if (receiveAdd.childElementCount > 0) {
 
     qfform = qfform.replace("qf", "qf" + receiveAdd.childElementCount);
@@ -184,6 +189,8 @@ function add() {
     qfform = qfform.replace("promotional_priceqf", "promotional_priceqf" + receiveAdd.childElementCount);
     
   }
-  receiveAdd.innerHTML = receiveAdd.innerHTML + qfform;
+  var el = document.createElement('div');
+  el.innerHTML = qfform;
+  receiveAdd.appendChild(el);
 
 }
