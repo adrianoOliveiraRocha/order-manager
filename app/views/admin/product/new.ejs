@@ -38,11 +38,10 @@
 
             </div>
 
-            <div class="content-box-large box-with-header">
-              
+            <div class="content-box-large box-with-header">              
                 
                 <%- include('../includes/validation.ejs'); %>
-                <form action="/novo_produto" method="POST" 
+                <form action="/save" method="POST" 
                 enctype="multipart/form-data">
                   <!-- name  -->
                   <div class="row">
@@ -50,7 +49,8 @@
                       <label class="form-control">Nome</label>
                     </div>
                     <div class="col-sm-9">
-                      <input type="text" class="form-control" placeholder="Nome" id="title" name="title" value="<%=data.title%>">
+                      <input type="text" class="form-control" placeholder="Nome" 
+                      id="title" name="title" value="<%=data.title%>">
                     </div>
                   </div>
                   <hr>

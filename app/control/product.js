@@ -1,117 +1,160 @@
 module.exports.new = function (req, res, application) {
   var msg = req.session.message;
   req.session.message = '';
-  if (req.method == 'GET') {
+  var connection = application.config.connect();
+  var category = new application.app.models.Category(connection);
 
-    var connection = application.config.connect();
-    var category = new application.app.models.Category(connection);
-
-    category.getAllCategories(
-      function (error, result) {
-        if (error !== null && error.fatal == true) {
-          console.log(error.sqlMessage);
-        } else {
-          res.render('admin/product/new.ejs', 
+  category.getAllCategories(
+    function (error, result) {
+      if (error !== null && error.fatal == true) {
+        console.log(error.sqlMessage);
+      } else {
+        res.render('admin/product/new.ejs',
           {
             data: {},
             validation: {},
             msg: msg,
             categories: result,
           });
+      }
+    }
+  ); 
+}
+
+module.exports.save = function (req, res, application) {
+  var connection = application.config.connect();
+  var category = new application.app.models.Category(connection);
+
+  var msg = req.session.message;
+  req.session.message = '';
+  var data = req.body;
+  req.assert('title', 'O campo título é obrogatório').notEmpty();
+  var errors = req.validationErrors();
+  if (errors) {
+    category.getAllCategories(
+      function (errorCategory, result) {
+        if (errorCategory) {
+          console.log(errorCategory.sqlMessage);
+        } else {
+          res.render('admin/product/new.ejs',
+            {
+              data: {},
+              validation: errors,
+              msg: msg,
+              categories: result,
+            });
         }
       }
-    );   
+    );
+  } else {// without error
 
-  } else {
-    var data = req.body;
-    req.assert('title', 'O campo nome é obrigatório!').notEmpty();
-    var errors = req.validationErrors();
-    if (errors) {
-      res.render('admin/product/new.ejs', {
-        data: data,
-        validation: errors,
-        msg: msg
+    var imageName = null;
+    if (Object.keys(req.files).length > 0) {//image sended
+      let prefix = new Date().getTime() + '_';
+      imageName = prefix + req.files.image.name;
+      let image = req.files.image;
+      image.mv(__dirname + '/../public/upload/product_images/' + imageName, function (err) {
+        if (err) {
+          return res.status(500).send(err);
+        }
       });
-    } else {
+    }
+    
+    let description = null;
+    if (data.description != '') {
+      description = data.description;
+    }    
 
-      var imageName = null;
-      
-      if (Object.keys(req.files).length > 0) {//image sended
-
-        let prefix = new Date().getTime() + '_';
-        imageName = prefix + req.files.image.name;
-        let image = req.files.image;
-        image.mv(__dirname + '/../public/upload/product_images/' + imageName, function (err) {
-          if (err) {
-            return res.status(500).send(err);
-          }
-        });
-
-      }  
-         
+    if (data.uniqueFlavior == 1) {// only one flavor
       let price = null;
+      if (data.price != '') {
+        price = data.price;
+      }
+
       let small_price = null;
+      if (data.small_price != '') {
+        price = data.small_price;
+      }
+
       let large_price = null;
+      if (data.large_price != '') {
+        price = data.large_price;
+      }
+
       let promotional_price = null;
-
-      if (data.price.length > 0) {
-        try {
-          price = JSON.stringify(data.price);
-          price = price.replace(',', '.');
-        } catch (error) {
-          console.log(error);
-          data.price = 0;
-        }
+      if (data.promotional_price != '') {
+        price = data.promotional_price;
       }
 
-      if (data.small_price.length > 0) {
-        try {
-          small_price = JSON.stringify(data.small_price);
-          small_price = small_price.replace(',', '.');
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      if (data.large_price.length > 0) {
-        try {
-          large_price = JSON.stringify(data.large_price);
-          large_price = large_price.replace(',', '.');
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      if (data.promotional_price.length > 0) {
-        try {
-          promotional_price = JSON.stringify(data.promotional_price);
-          promotional_price = promotional_price.replace(',', '.');
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      let stm = `insert into product (title, description, price, small_price,
-      large_price, promotional_price, category, image) 
-      values('${data['title']}', '${data['description']}', 
-      ${price}, ${small_price}, ${large_price}, ${promotional_price}, 
-      '${data['category']}', '${imageName}')`;
+      const stm = `insert into product (title, description, price, small_price, 
+        large_price, promotional_price, image, category, unique_flavor) 
+        values('${data.title}', '${description}', ${price}, 
+        ${small_price}, ${large_price}, ${promotional_price}, 
+        '${imageName}', ${data.category}, 1)`;
       
-      var connection = application.config.connect();
       var product = new application.app.models.Product(connection);
-
-      product.save(stm, function (error, result) {
-        if (error !== null && error.fatal == true) {
-          res.send(error.sqlMessage);
+      product.save(stm, function(errorProduct, resultProduct){
+        if (errorProduct) {
+          res.send('Sql error: ' + errorProduct.sqlMessage);
         } else {
           req.session.message = 'Produto salvo com sucesso!';
           res.redirect('/novo_produto');
         }
-      });
+      });  
 
-    }
-  }
-}
+    } else {// more then one flavor
+
+      const stm = `insert into product (title, description, image, category, 
+        unique_flavor) 
+        values('${data.title}', '${description}', '${imageName}', 
+        ${data.category}, 0)`;
+      
+      var product = new application.app.models.Product(connection);
+      product.save(stm, function (errorProduct, resultProduct) {
+        if (errorProduct) {
+          res.send('Sql error as errorProduct: ' + errorProduct.sqlMessage);
+        } else {
+          const productId = resultProduct.insertId;
+          // this object have only elements of the table product_flavor
+          var product_flavor = {};
+          for (var key in data) {
+            let result = key.search('qf');
+            if (result != -1) {
+              product_flavor[key] = data[key];
+            }
+          }
+
+          var count = 1
+          var element = {};
+          for (var key in product_flavor) {
+            element[key] = product_flavor[key];
+            if (count % 5 == 0) {// I have a complete element
+              element['product'] = productId;
+              var productFlavor = new application.app.models.ProductFlavor(connection);
+              productFlavor.save(element, function(errorPF, resultPF){
+                if (errorPF) {
+                  console.error(`Sql error as errorPF: ${errorPF.sqlMessage}`);
+                } else {
+                  console.log(`Save with id ${resultPF.insertId}`);
+                }
+              });
+              element = {}              
+            }
+            count++;
+          }
+
+          req.session.message = 'Produto salvo com sucesso!';
+          res.redirect('/novo_produto');
+          
+        }
+      }); 
+
+    }// ends more then one flavor          
+
+  } // ends without error
+
+}// ends save
+
 
 module.exports.show = function (req, res, application) {
   var msg = req.session.message;
@@ -319,7 +362,6 @@ function editProduct(req, res, product, currentProduct) {
         if (error) {
           res.send(error.sqlMessage);
         } else {
-          console.log(q);
           req.session.message = 'Alteração realizada com sucesso!';
           res.redirect('/exibir_produtos');
         }
