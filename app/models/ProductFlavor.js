@@ -26,6 +26,11 @@ class ProductFlavor {
      this._connection.query(stm, callback);
   }
 
+  getAllFromProduct(idProduct, callback){
+    const stm = `select * from product_flavor where product = ${idProduct}`;
+    this._connection.query(stm, callback);
+  }
+
 }
 
 module.exports = function () {

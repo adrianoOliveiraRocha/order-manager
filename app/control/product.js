@@ -188,15 +188,32 @@ module.exports.detail = function (req, res, application) {
           res.send(errorCategories.sqlMessage);
         } else {
           var product = products[0];
-          if (product.unique_flavor == 1) {
+          if (product.unique_flavor == 1) { //This product have only one flavor
             res.render('admin/product/detail.ejs', {
               data: product,
               msg: msg,
               categories: categories,
-              validation: {}
+              validation: {},
+              pfs: {}
             });
-          } else {
-            res.send("no! this product  have more than one flavor!");
+          } else { //This product have more than one flavor
+            var product = products[0];
+            const productFlavor = new application.app.models.ProductFlavor(connection);
+            productFlavor.getAllFromProduct(product.id, function(errorPF, resultPF){
+              if (errorPF) {
+                res.send(errorPF.sqlMessage);
+              } else {
+                console.log(resultPF);
+                res.render('admin/product/detail.ejs', {
+                  data: product,
+                  msg: msg,
+                  categories: categories,
+                  validation: {},
+                  pfs: resultPF,
+                });
+              }
+            });
+            
           }
           
         }
@@ -371,21 +388,30 @@ function editProduct(req, res, product, currentProduct) {
         if (error) {
           res.send(error.sqlMessage);
         } else {
-          req.session.message = 'Alteração realizada com sucesso!';
-          res.redirect('/exibir_produtos');
+          if (currentProduct.unique_flavor == 1) {
+            req.session.message = 'Alteração realizada com sucesso!';
+            res.redirect('/exibir_produtos'); 
+          } else {
+            console.log('It is not unique flavor');
+          }                   
         }
       });
-
     } else {
-      req.session.message = 'Nenhuma alteração detectada!';
-      res.redirect('/exibir_produtos');
+      if (currentProduct.unique_flavor == 1) {
+        req.session.message = 'Nenhuma alteração detectada!';
+        res.redirect('/exibir_produtos');
+      } else {
+        console.log('It is not unique flavor');
+      }
     }
     
   }
 }
 
 function editComplexProduct(req, res, product, currentProduct) {
-  res.send('Oops! Here is more complicated');
+  // edit normal product
+  editProduct(req, res, product, currentProduct);
+  res.send('The normal product was alterated and i have much others things to do!');
 }
 
 module.exports.delete = function (req, res, application) {
