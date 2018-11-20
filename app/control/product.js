@@ -47,7 +47,6 @@ module.exports.save = function (req, res, application) {
       }
     );
   } else {// without error
-
     var imageName = null;
     if (Object.keys(req.files).length > 0) {//image sended
       let prefix = new Date().getTime() + '_';
@@ -73,17 +72,17 @@ module.exports.save = function (req, res, application) {
 
       let small_price = null;
       if (data.small_price != '') {
-        price = data.small_price;
+        small_price = data.small_price;
       }
 
       let large_price = null;
       if (data.large_price != '') {
-        price = data.large_price;
+        large_price = data.large_price;
       }
 
       let promotional_price = null;
       if (data.promotional_price != '') {
-        price = data.promotional_price;
+        promotional_price = data.promotional_price;
       }
 
       const stm = `insert into product (title, description, price, small_price, 
