@@ -160,12 +160,12 @@ module.exports.show = function (req, res, application) {
   req.session.message = '';
   var connection = application.config.connect();
   var product = new application.app.models.Product(connection);
-  product.show(function (error, result) {
-    if (error !== null && error.fatal == true) {
+  product.show(function (errorProducts, resultProducts) {
+    if (errorProducts) {
       res.send(error.sqlMessage);
     } else {
       res.render('admin/product/show.ejs', {
-        data: result,
+        data: resultProducts,
         msg: msg
       });
     }
@@ -178,21 +178,27 @@ module.exports.detail = function (req, res, application) {
   var id = req.query.id;
   var connection = application.config.connect();
   var product = new application.app.models.Product(connection);
-  product.getThis(id, function (error, products) {
-    if (error) {
-      res.send(error.sqlMessage);
+  product.getThis(id, function (errorProducts, products) {
+    if (errorProducts) {
+      res.send(errorProducts.sqlMessage);
     } else {      
       const category = new application.app.models.Category(connection);
-      category.getAllCategories(function (error, categories) {
-        if (error) {
-          res.send(error.sqlMessage);
+      category.getAllCategories(function (errorCategories, categories) {
+        if (errorCategories) {
+          res.send(errorCategories.sqlMessage);
         } else {
-          res.render('admin/product/detail.ejs', {
-            data: products[0],
-            msg: msg,
-            categories: categories,
-            validation: {}
-          });
+          var product = products[0];
+          if (product.unique_flavor == 1) {
+            res.render('admin/product/detail.ejs', {
+              data: product,
+              msg: msg,
+              categories: categories,
+              validation: {}
+            });
+          } else {
+            res.send("no! this product  have more than one flavor!");
+          }
+          
         }
       });  
     }
@@ -205,14 +211,14 @@ module.exports.edit = function (req, res, application){
   const idProduct = req.query.id;
   const connection = application.config.connect();
   const product = new application.app.models.Product(connection);
-  product.getThis(idProduct, function (error, currentProduct) {
-    if (error) {
-      res.send(error.sqlMessage);
+  product.getThis(idProduct, function (errorProduct, currentProduct) {
+    if (errorProduct) {
+      res.send(errorProduct.sqlMessage);
     } else {
       const category = new application.app.models.Category(connection);
-      category.getAllCategories(function (error, categories) {
-        if (error) {
-          res.send(error.sqlMessage);
+      category.getAllCategories(function (errorCategories, categories) {
+        if (errorCategories) {
+          res.send(errorCategories.sqlMessage);
         } else {
           var data = req.body;
           data.image = currentProduct[0].image;
@@ -226,7 +232,11 @@ module.exports.edit = function (req, res, application){
               msg: msg
             });
           } else {
-            editProduct(req, res, product, currentProduct[0])
+            if (currentProduct[0].unique_flavor == 1) {
+              editProduct(req, res, product, currentProduct[0]);  
+            } else {
+              editComplexProduct(req, res, product, currentProduct[0]);
+            }            
           }
           
         }
@@ -372,6 +382,10 @@ function editProduct(req, res, product, currentProduct) {
     }
     
   }
+}
+
+function editComplexProduct(req, res, product, currentProduct) {
+  res.send('Oops! Here is more complicated');
 }
 
 module.exports.delete = function (req, res, application) {
