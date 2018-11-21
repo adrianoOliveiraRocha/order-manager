@@ -194,3 +194,20 @@ function add() {
   receiveAdd.appendChild(el);
 
 }
+
+function changeUniqueFlavor(value) {
+  if (value == 1) {
+    var buttons = document.getElementById('buttons');
+    var cn = buttons.childNodes;
+    var count = 0;
+    cn.forEach(element => {
+      if (count == 3) {
+        // alert(element.innerHTML);
+        element.remove();
+      }     
+      count ++;
+    });
+  } else {
+    alert('no');
+  }
+}

@@ -69,7 +69,9 @@
                       <label class="form-control">Sabor Único</label>
                     </div>
                     <div class="col-sm-3">
-                      <select name="uniqueFlavior" class="form-control" onchange="uniqueFlavor(this.value);">
+                      <select name="uniqueFlavior" 
+                      class="form-control" 
+                      onchange="changeUniqueFlavor(this.value);">
                         <% if(data.unique_flavor == 1){ %>
                           <option value="1" selected>Sim</option>
                           <option value="0">Não</option>
@@ -185,22 +187,26 @@
                   </div>
                   <hr>                 
                   
-                  <div class="row">
+                  <div class="row" id="buttons">
+
                     <div class="col-sm-2" style="text-align: center">
                       <input class="form-control btn btn-primary" 
                       type="submit" value="Editar" />
                     </div> 
+
                     <% if(data.unique_flavor == 0) { %>
                     <div class="col-sm-2" style="text-align: center">
                       <a class="form-control btn btn-warning">Editar Preços</a>
                     </div>
                     <% } %>
+
                     <div class="col-sm-2" style="text-align: center">
                       <a class="form-control btn btn-danger" 
                       href="/delete_product?id=<%=data.id%>">
                         Deletar  
                       </a>
                     </div>
+                    
                   </div>
                   <hr>
                 
