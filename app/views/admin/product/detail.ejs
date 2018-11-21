@@ -62,6 +62,26 @@
                     </div>
                   </div>
                   <hr>
+
+                  <!-- unique flavor -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Sabor Único</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <select name="uniqueFlavior" class="form-control" onchange="uniqueFlavor(this.value);">
+                        <% if(data.unique_flavor == 1){ %>
+                          <option value="1" selected>Sim</option>
+                          <option value="0">Não</option>
+                        <% } else { %>
+                          <option value="1">Sim</option>
+                          <option value="0" selected>Não</option>
+                        <% } %>
+                      </select>
+                    </div>
+                  </div>
+                  <hr>
+
                   <% if(data.unique_flavor == 1){ %>
                   <!-- price  -->
                   <div class="row">
@@ -163,75 +183,18 @@
                       </select>
                     </div>
                   </div>
-                  <hr>
-
-                  <div id="moreFlavor">
-                  <% for(pf in pfs) { %>
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Quantidade de Sabores</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="number" class="form-control" placeholder="Quantidade de Sabores" 
-                      name="qf" value="<%= pfs[pf].amount_flavor %>">
-                    </div>
-                  </div>
-                  <hr>
-                  
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço" name="priceqf" 
-                      onkeyup="replacePoint(this);" value="<%= pfs[pf].price %>">
-                    </div>
-                  </div>
-                  <hr>
-                  
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Pequeno</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço Pequeno" 
-                      name="small_priceqf" onkeyup="replacePoint(this);"
-                      value="<%= pfs[pf].small_price %>">
-                    </div>
-                  </div>
-                  <hr>
-                  
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Grande</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço Grande" 
-                      name="large_priceqf" onkeyup="replacePoint(this);"
-                      value="<%= pfs[pf].large_price %>">
-                    </div>
-                  </div>
-                  <hr>
-                  
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Promocional</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço Promocional" 
-                      name="promotional_priceqf" onkeyup="replacePoint(this);"
-                      value="<%= pfs[pf].promotional_price %>">
-                    </div>
-                  </div>
-                  <hr>
-                  <% } %>
-                  </div>                  
+                  <hr>                 
                   
                   <div class="row">
                     <div class="col-sm-2" style="text-align: center">
                       <input class="form-control btn btn-primary" 
                       type="submit" value="Editar" />
                     </div> 
+                    <% if(data.unique_flavor == 0) { %>
+                    <div class="col-sm-2" style="text-align: center">
+                      <a class="form-control btn btn-warning">Editar Preços</a>
+                    </div>
+                    <% } %>
                     <div class="col-sm-2" style="text-align: center">
                       <a class="form-control btn btn-danger" 
                       href="/delete_product?id=<%=data.id%>">

@@ -102,7 +102,7 @@ function uniqueFlavor(value) {
     
     <div class="col-sm-2">
       <input type="button" class="form-control btn-success" 
-      value="Adicionar" onclick='add();'>
+      value="Adicionar Preço" onclick='add();'>
     </div>    
 
   </div>
