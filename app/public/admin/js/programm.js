@@ -189,10 +189,10 @@ function add() {
     qfform = qfform.replace("promotional_priceqf", "promotional_priceqf" + receiveAdd.childElementCount);
     
   }
+
   var el = document.createElement('div');
   el.innerHTML = qfform;
   receiveAdd.appendChild(el);
-
 }
 
 function changeUniqueFlavor(value) {
@@ -201,13 +201,23 @@ function changeUniqueFlavor(value) {
     var cn = buttons.childNodes;
     var count = 0;
     cn.forEach(element => {
-      if (count == 3) {
-        // alert(element.innerHTML);
+      if (count == 5) {
         element.remove();
       }     
       count ++;
     });
   } else {
-    alert('no');
+    var buttons = document.getElementById('buttons');
+    
+    var div = document.createElement('div');
+    
+    div.setAttribute('class', 'col-sm-2');
+    const content = `<div class="col-sm-2" style="text-align: center">
+                      <a class="form-control btn btn-warning">Editar Preços</a>
+                    </div>`;
+    div.innerHTML = content;
+    alert(div.innerHTML);
+    
+    buttons.appendChild(div);    
   }
 }
