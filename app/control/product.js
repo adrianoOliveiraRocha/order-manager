@@ -384,13 +384,23 @@ function editProduct(req, res, product, currentProduct) {
     if (changed) {
       q = q + ` where id = ${currentProduct.id}`;
       
-      product.update(q, function(error, result){
+      product.update(q, function(error, result) {
         if (error) {
           res.send(error.sqlMessage);
         } else {
+          console.log('normal product edited ' + result);
           if (currentProduct.unique_flavor == 1) {
-            req.session.message = 'Alteração realizada com sucesso!';
-            res.redirect('/exibir_produtos'); 
+
+            if (currentProduct.unique_flavor == data.uniqueFlavior) {
+              req.session.message = 'Alteração realizada com sucesso!';
+              res.redirect('/exibir_produtos'); 
+            } else { 
+              /** 
+               * in this case, I need hide the fields relateds with 
+               * price because now is not only one price
+               */
+              res.send('The uniqueFlavor field was changed');
+            }            
           } else {
             console.log('It is not unique flavor');
           }                   
