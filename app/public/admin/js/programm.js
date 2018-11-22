@@ -197,27 +197,78 @@ function add() {
 
 function changeUniqueFlavor(value) {
   if (value == 1) {
-    var buttons = document.getElementById('buttons');
-    var cn = buttons.childNodes;
+    var editPrice = document.getElementById('editPrice');
+    editPrice.remove();  
+    
+    //to put others fields
+    const myFields = `
+    <!-- price  -->
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço R$</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Preço" id="price" 
+        name="price" onkeyup="replacePoint(this);"/>
+      </div>
+    </div>
+    <hr>
+    <!-- small price  -->
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Pequeno R$</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Preço Pequeno" 
+        id="small_price" name="small_price" onkeyup="replacePoint(this);">
+      </div>
+    </div>
+    <hr>
+    <!-- large price  -->
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Grande R$</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Preço Grande" 
+        id="large_price" name="large_price" onkeyup="replacePoint(this);">
+      </div>
+    </div>
+    <hr>
+    <!-- promotional price  -->
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Promocional R$</label>
+      </div>
+      <div class="col-sm-3">
+        <input type="text" class="form-control" placeholder="Preço Promocional" 
+        id="price" name="promotional_price" onkeyup="replacePoint(this);">
+      </div>
+    </div>
+    <hr>                   
+    `;
+    document.getElementById('uniqueFlavor').innerHTML = myFields;
+    var myForm = document.getElementById('formProduct');
+    var childsForm = myForm.childNodes;
     var count = 0;
-    cn.forEach(element => {
-      if (count == 5) {
-        element.remove();
-      }     
-      count ++;
+    childsForm.forEach(function(element){
+      if (count == 2) {
+        myForm.appendChild(div);
+      }
     });
+
   } else {
-    var buttons = document.getElementById('buttons');
-    
+    // it changing buttons
+    var buttons = document.getElementById('buttons');    
     var div = document.createElement('div');
-    
-    div.setAttribute('class', 'col-sm-2');
+    div.id = 'editPrice';    
     const content = `<div class="col-sm-2" style="text-align: center">
                       <a class="form-control btn btn-warning">Editar Preços</a>
                     </div>`;
     div.innerHTML = content;
-    alert(div.innerHTML);
-    
-    buttons.appendChild(div);    
+    buttons.appendChild(div); 
+    document.getElementById('uniqueFlavor').innerHTML = '';
+    //to delete others fields
+
   }
 }

@@ -37,7 +37,8 @@
               <div class="panel-body">
                 <%- include('../includes/validation.ejs'); %>
                 <form action="/edit_product?id=<%=data.id%>" 
-                  method="POST" enctype="multipart/form-data">
+                  method="POST" enctype="multipart/form-data"
+                  id="formProduct">
                   <!-- name  -->
                   <div class="row">
                     <div class="col-sm-3" style="text-align: center">
@@ -185,7 +186,11 @@
                       </select>
                     </div>
                   </div>
-                  <hr>                 
+                  <hr> 
+                  
+                  <div id="uniqueFlavor">
+                    
+                  </div>
                   
                   <div class="row" id="buttons">
 
@@ -202,8 +207,10 @@
                     </div>
 
                     <% if(data.unique_flavor == 0) { %>
-                    <div class="col-sm-2" style="text-align: center">
-                      <a class="form-control btn btn-warning">Editar Preços</a>
+                    <div id='editPrice'>
+                      <div class="col-sm-2" style="text-align: center">
+                        <a class="form-control btn btn-warning">Editar Preços</a>
+                      </div>
                     </div>
                     <% } %>
 
