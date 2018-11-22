@@ -248,15 +248,7 @@ function changeUniqueFlavor(value) {
     <hr>                   
     `;
     document.getElementById('uniqueFlavor').innerHTML = myFields;
-    var myForm = document.getElementById('formProduct');
-    var childsForm = myForm.childNodes;
-    var count = 0;
-    childsForm.forEach(function(element){
-      if (count == 2) {
-        myForm.appendChild(div);
-      }
-    });
-
+    
   } else {
     // it changing buttons
     var buttons = document.getElementById('buttons');    
