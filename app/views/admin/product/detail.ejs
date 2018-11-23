@@ -209,7 +209,10 @@
                     <% if(data.unique_flavor == 0) { %>
                     <div id='editPrice'>
                       <div class="col-sm-2" style="text-align: center">
-                        <a class="form-control btn btn-warning">Editar Preços</a>
+                        <a class="form-control btn btn-warning"
+                        href="/show_prices?idProduct=<%=data.id%>">
+                          Editar Preços
+                        </a>
                       </div>
                     </div>
                     <% } %>
