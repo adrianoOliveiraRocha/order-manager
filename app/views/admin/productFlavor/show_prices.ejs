@@ -30,62 +30,91 @@
           <div class="col-md-12">
             <div class="content-box-large">
               <div class="panel-heading">
-                <div class="panel-title">Detalhes</div>
+                <div class="panel-title">Preços de: <%=productName %></div>
 
               </div>
 
               <div class="panel-body">
                 <%- include('../includes/validation.ejs'); %>
-                <form action="/detalhes?id=<%=data.id %>" method="POST">
-                  <input type="hidden" name="id" value="<%= data.id %>">
+                                 
+                  <% for(index in data){ %>
+                  <form action="/edit_pf" method="POST">
+                    <input type="hidden" name='idPF' value="<%=data[index].id%>">
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Quantidade de sabores</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="Quantidade de Sabores" 
+                        id="amount_flavor<%=index%>" name="amount_flavor" 
+                        value="<%= data[index].amount_flavor %>">
+                      </div>
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço R$</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="Preço" 
+                        id="price<%=index%>" name="price" value="<%= data[index].price %>">
+                      </div>
+                    </div>
+                    <hr>   
 
-                  <!-- amount_flavor  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Quantidade de sabores</label>
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Pequeno R$</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="Preço Pequeno" 
+                        id="small_price<%=index%>" name="small_price" value="<%= data[index].small_price %>">
+                      </div>
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Grande R$</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="Preço Grande" 
+                        id="large_price<%=index%>" name="large_price"
+                          value="<%= data[index].large_price %>">
+                      </div>
                     </div>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" placeholder="Quantidade de Sabores" 
-                      id="amount_flavor" name="amount_flavor" 
-                      value="<%= data.amount_flavor %>">
+                    <hr>
+                    
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Promocional R$</label>
+                      </div>
+                      <div class="col-sm-2">
+                        <input type="text" class="form-control" placeholder="Preço Promocional" 
+                        id="promotional_price<%=index%>" name="promotional_price"
+                          value="<%= data[index].promotional_price %>">
+                      </div>                    
                     </div>
-                  </div>
+                    <hr>
+
+                    <div class="row">                    
+                      <div class="col-sm-2" style="text-align: center">
+                        <input class="form-control btn btn-primary" type="submit" value="Editar" />
+                      </div>
+                      <div class="col-sm-2" style="text-align: center">
+                        <a class="form-control btn btn-danger" href="/delete_pf?id=<%=data[index].id %>">
+                          Delete
+                        </a>
+                      </div>
+                    </div>
+                    <hr><hr>
+
+                  </form>
+                  <% } %>               
+                
                   <hr>
-
-                  <!-- price  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço R$</label>
-                    </div>
-                    <div class="col-sm-9">
-                      <input type="text" class="form-control" placeholder="Preço" 
-                      id="price" name="price" value="<%= data.price %>">
-                    </div>
-                  </div>
-                  <hr>
-
-                  <div class="row">
-                    <div class="col-sm-2" style="text-align: center">
-                      <input class="form-control btn btn-primary" type="submit" value="Editar" />
-                    </div>
-                    <div class="col-sm-2" style="text-align: center">
-                      <a class="form-control btn btn-danger" href="/delete_category?id=<%=data.id %>">
-                        Delete
-                      </a>
-                    </div>
-
-                  </div>
-                  <hr>
-
-                </form>
-
               </div>
+              
             </div>
 
           </div>
         </div>
 
       </div>
+
     </div>
   </div>
 

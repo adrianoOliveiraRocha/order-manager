@@ -37,6 +37,12 @@ class Product {
     console.log(stm);
     this._connection.query(stm, callback);
   }
+
+  getNameProduct(idProduct, callback) {
+    const stm = `select title from product where id = ${idProduct}`;
+    this._connection.query(stm, callback);
+  }
+
 }
 
 module.exports = function () {
