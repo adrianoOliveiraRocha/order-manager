@@ -264,3 +264,80 @@ function changeUniqueFlavor(value) {
 
   }
 }
+
+function newPF() {
+  var form = `
+  <form action="/save_pf" method="POST">
+    
+    <hr>
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Quantidade de sabores</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" placeholder="Quantidade de Sabores" 
+        name="amount_flavor">
+      </div>
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço R$</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" placeholder="Preço" 
+        name="price" onkeyup="replacePoint(this);">
+      </div>
+    </div>
+    <hr>   
+
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Pequeno R$</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" placeholder="Preço Pequeno" 
+        name="small_price" onkeyup="replacePoint(this);">
+      </div>
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Grande R$</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" placeholder="Preço Grande" 
+        name="large_price" onkeyup="replacePoint(this);">
+      </div>
+    </div>
+    <hr>
+    
+    <div class="row">
+      <div class="col-sm-3" style="text-align: center">
+        <label class="form-control">Preço Promocional R$</label>
+      </div>
+      <div class="col-sm-2">
+        <input type="text" class="form-control" placeholder="Preço Promocional" 
+        name="promotional_price" onkeyup="replacePoint(this);">
+      </div>                    
+    </div>
+    <hr>
+
+    <div class="row">                    
+      <div class="col-sm-2" style="text-align: center">
+        <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+      </div>
+      <div class="col-sm-2" style="text-align: center">
+        <input class="form-control btn btn-warning" onclick='cancelPF(this);' 
+        type='button' value='Cancelar'/>
+      </div>            
+    </div>
+    <hr>
+    
+  </form>
+  `;
+
+  var newForms = document.getElementById('newForms');
+  var div = document.createElement('div');
+  div.innerHTML = form;
+  newForms.appendChild(div);
+}
+
+function cancelPF(element) {
+  var div = element.parentNode.parentNode.parentNode.parentNode;
+  div.remove();
+}

@@ -36,12 +36,27 @@ module.exports.editPF = function (req, res, application) {
 
   productFlavor.editPF(body, function(errorPF, resultPF) {
     if (errorPF) {
-      res.send(errorPF.sqlMessage);
+      res.send(`An error ocorr try save ` + errorPF.sqlMessage);
     } else {
       console.log(resultPF);
       req.session.message = 'Preço atualizado com sucesso';
-      res.redirect('/show_prices');
+      res.redirect('/exibir_produtos');
     }
   });
 
+}
+
+module.exports.delete = function (req, res, application) {
+  const idPF = req.query.idPF;
+  const connection = application.config.connect();
+  const productFlavor = new application.app.models.ProductFlavor(connection);
+  productFlavor.delete(idPF, function(error, result) {
+    if (error) {
+      res.send(error.sqlMessage);
+    } else {
+      console.log(result);
+      req.session.message = 'Operação realizada com sucesso';
+      res.redirect('/exibir_produtos');
+    }
+  });
 }

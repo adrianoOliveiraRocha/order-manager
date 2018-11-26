@@ -35,7 +35,7 @@ class ProductFlavor {
     
     var amount_flavor = 1;
     if (pf.amount_flavor) {
-      amount_flavor = 1;
+      amount_flavor = pf.amount_flavor;
     }
     var price = null;
     if (pf.price) {
@@ -58,8 +58,14 @@ class ProductFlavor {
     price = ${price}, small_price = ${small_price}, 
     large_price = ${large_price}, promotional_price = ${promotional_price} 
     where id = ${pf.idPF}`;
+    console.log(stm);
     this._connection.query(stm, callback);  
 
+  }
+
+  delete(idPF, callback) {
+    const stm = `delete from product_flavor where id = ${idPF}`;
+    this._connection.query(stm, callback);
   }
 
 }

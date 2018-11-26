@@ -40,6 +40,7 @@
                   <% for(index in data){ %>
                   <form action="/edit_pf" method="POST">
                     <input type="hidden" name='idPF' value="<%=data[index].id%>">
+                    <hr>
                     <div class="row">
                       <div class="col-sm-3" style="text-align: center">
                         <label class="form-control">Quantidade de sabores</label>
@@ -54,7 +55,8 @@
                       </div>
                       <div class="col-sm-2">
                         <input type="text" class="form-control" placeholder="Preço" 
-                        id="price<%=index%>" name="price" value="<%= data[index].price %>">
+                        id="price<%=index%>" name="price" value="<%= data[index].price %>"
+                        onkeyup="replacePoint(this);">
                       </div>
                     </div>
                     <hr>   
@@ -65,7 +67,8 @@
                       </div>
                       <div class="col-sm-2">
                         <input type="text" class="form-control" placeholder="Preço Pequeno" 
-                        id="small_price<%=index%>" name="small_price" value="<%= data[index].small_price %>">
+                        id="small_price<%=index%>" name="small_price" 
+                        value="<%= data[index].small_price %>" onkeyup="replacePoint(this);">
                       </div>
                       <div class="col-sm-3" style="text-align: center">
                         <label class="form-control">Preço Grande R$</label>
@@ -73,7 +76,7 @@
                       <div class="col-sm-2">
                         <input type="text" class="form-control" placeholder="Preço Grande" 
                         id="large_price<%=index%>" name="large_price"
-                          value="<%= data[index].large_price %>">
+                          value="<%= data[index].large_price %>" onkeyup="replacePoint(this);">
                       </div>
                     </div>
                     <hr>
@@ -85,7 +88,8 @@
                       <div class="col-sm-2">
                         <input type="text" class="form-control" placeholder="Preço Promocional" 
                         id="promotional_price<%=index%>" name="promotional_price"
-                          value="<%= data[index].promotional_price %>">
+                          value="<%= data[index].promotional_price %>"
+                          onkeyup="replacePoint(this);">
                       </div>                    
                     </div>
                     <hr>
@@ -95,17 +99,27 @@
                         <input class="form-control btn btn-primary" type="submit" value="Editar" />
                       </div>
                       <div class="col-sm-2" style="text-align: center">
-                        <a class="form-control btn btn-danger" href="/delete_pf?id=<%=data[index].id %>">
+                        <a class="form-control btn btn-danger" href="/delete?idPF=<%=data[index].id %>">
                           Delete
                         </a>
                       </div>
+                      
                     </div>
-                    <hr><hr>
-
+                    <hr>
+                    
                   </form>
-                  <% } %>               
-                
+                  <% } %>  
                   <hr>
+                  <div id="newForms">
+
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-2">
+                      <input type="button" class="form-control btn-success" 
+                      value="Adicionar Preço" onclick='newPF();'>
+                    </div>
+                  </div>
               </div>
               
             </div>
