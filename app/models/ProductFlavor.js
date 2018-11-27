@@ -68,6 +68,34 @@ class ProductFlavor {
     this._connection.query(stm, callback);
   }
 
+  registroIndependente(pf, callback) {
+    var amount_flavor = 1;
+    if (pf.amount_flavor) {
+      amount_flavor = pf.amount_flavor;
+    }
+    var price = null;
+    if (pf.price) {
+      price = pf.price;
+    }
+    var small_price = null;
+    if (pf.small_price) {
+      small_price = pf.small_price;
+    }
+    var large_price = null;
+    if (pf.large_price) {
+      large_price = pf.large_price;
+    }
+    var promotional_price = null;
+    if (pf.promotional_price) {
+      promotional_price = pf.promotional_price;
+    }
+    const stm = `insert into product_flavor (amount_flavor, price, small_price, large_price, 
+      promotional_price, product) 
+      values(${amount_flavor}, ${price}, ${small_price}, ${large_price}, 
+        ${promotional_price}, ${pf.idProduto})`;
+      this._connection.query(stm, callback);
+  }
+
 }
 
 module.exports = function () {

@@ -266,8 +266,9 @@ function changeUniqueFlavor(value) {
 }
 
 function newPF() {
+  const idProduto = document.getElementById('idProduto').value;
   var form = `
-  <form action="/save_pf" method="POST">
+  <form action="/salvar_pf" method="POST">
     
     <hr>
     <div class="row">
@@ -316,7 +317,7 @@ function newPF() {
       </div>                    
     </div>
     <hr>
-
+    <input type="hidden" name='idProduto' value="`+ idProduto +`">
     <div class="row">                    
       <div class="col-sm-2" style="text-align: center">
         <input class="form-control btn btn-primary" type="submit" value="Salvar" />
@@ -335,6 +336,7 @@ function newPF() {
   var div = document.createElement('div');
   div.innerHTML = form;
   newForms.appendChild(div);
+  
 }
 
 function cancelPF(element) {

@@ -8,4 +8,7 @@ module.exports = function (application) {
   application.get('/delete', function (req, res) {
     application.app.control.productFlavor.delete(req, res, application);
   });
+  application.post('/salvar_pf', function(req, res) {
+    application.app.control.productFlavor.salvarPF(req, res, application);
+  });
 }

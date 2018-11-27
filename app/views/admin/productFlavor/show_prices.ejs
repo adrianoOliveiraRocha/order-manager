@@ -30,7 +30,9 @@
           <div class="col-md-12">
             <div class="content-box-large">
               <div class="panel-heading">
-                <div class="panel-title">Preços de: <%=productName %></div>
+                <div class="panel-title">Preços de: <%=product.title %></div>
+                <!-- id do produto -->
+                <input type="hidden" id='idProduto' value="<%=product.id %>">
 
               </div>
 
@@ -39,7 +41,7 @@
                                  
                   <% for(index in data){ %>
                   <form action="/edit_pf" method="POST">
-                    <input type="hidden" name='idPF' value="<%=data[index].id%>">
+                    <input type="hidden" id='idPF' name='idPF' value="<%=data[index].id%>">
                     <hr>
                     <div class="row">
                       <div class="col-sm-3" style="text-align: center">
