@@ -253,10 +253,14 @@ function changeUniqueFlavor(value) {
     // it changing buttons
     var buttons = document.getElementById('buttons');    
     var div = document.createElement('div');
-    div.id = 'editPrice';    
+    div.id = 'editPrice';  
+    const idProduct = document.getElementById('idProduct').value;  
     const content = `<div class="col-sm-2" style="text-align: center">
-                      <a class="form-control btn btn-warning">Editar Preços</a>
-                    </div>`;
+                        <a class="form-control btn btn-warning"
+                        href="/show_prices?idProduct=` + idProduct + `">
+                          Editar Preços
+                        </a>
+                      </div>`;
     div.innerHTML = content;
     buttons.appendChild(div); 
     document.getElementById('uniqueFlavor').innerHTML = '';

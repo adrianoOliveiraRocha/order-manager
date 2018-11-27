@@ -258,8 +258,6 @@ module.exports.edit = function (req, res, application){
           
         }
       });
-      
-
     }
   });
 }
@@ -386,24 +384,10 @@ function editProduct(req, res, product, currentProduct) {
       
       product.update(q, function(error, result) {
         if (error) {
+          console.error(error.sqlMessage);          
           res.send(error.sqlMessage);
-        } else {
-          console.log('normal product edited ' + result);
-          if (currentProduct.unique_flavor == 1) {
-
-            if (currentProduct.unique_flavor == data.uniqueFlavior) {
-              req.session.message = 'Alteração realizada com sucesso!';
-              res.redirect('/exibir_produtos'); 
-            } else { 
-              /** 
-               * in this case, I need hide the fields relateds with 
-               * price because now is not only one price
-               */
-              res.send('The uniqueFlavor field was changed');
-            }            
-          } else {
-            console.log('It is not unique flavor');
-          }                   
+        } else {          
+          console.log(result);            
         }
       });
     } else {
@@ -419,9 +403,56 @@ function editProduct(req, res, product, currentProduct) {
 }
 
 function editComplexProduct(req, res, product, currentProduct) {
-  // edit normal product
-  editProduct(req, res, product, currentProduct);
-  res.send('The normal product was alterated and i have much others things to do!');
+  // esse produto tinha mais de um sabor
+  editProduct(req, res, product, currentProduct); //campos principais alterados
+  /**Se ele tinha mais de um sabor, eu presciso verificar se a quantidade de 
+   * sabores mudou
+   */
+  var dados = req.body;
+  if (dados.uniqueFlavior == '0') { //Continua tendo mais de um sabor
+    req.session.message = 'Operação realizada com sucesso'
+    res.redirect('/exibir_produtos');  
+  } else {//Agora o produto tem apenas um sabor
+    /** Nesse caso, eu preciso deletar os pfs relacionados a esse produto */
+    var price = null;
+    if (dados.price) {
+      price = dados.price;
+    }
+    var small_price = null;
+    if (dados.small_price) {
+      small_price = dados.small_price;
+    }
+    var largel_price = null;
+    if (dados.largel_price) {
+      largel_price = dados.largel_price;
+    }
+    var promotional_price = null;
+    if (dados.promotional_price) {
+      promotional_price = dados.promotional_price;
+    }
+    
+    const stm = `update product set unique_flavor = 1, 
+    price = ${price}, small_price = ${small_price}, 
+    large_price = ${largel_price}, promotional_price = ${promotional_price} 
+    where id = ${currentProduct.id}`;
+    console.log(stm);
+    product.update(stm, function(erro, resultado) {
+      if (erro) {
+        console.error(erro.sqlMessage);        
+      } else { // Agora, precisamos deletar os pfs relacionados a esse produto
+        product.deletePFs(currentProduct.id, function(erroDel, resultadoDel) {
+          if (erroDel) {
+            console.error(erroDel.sqlMessage);            
+          } else {// tudo feito
+            console.log(resultadoDel);
+            req.session.message = 'Operação realizada com sucesso'
+            res.redirect('/exibir_produtos');  
+          }
+        });        
+      }
+    });
+    
+  }  
 }
 
 module.exports.delete = function (req, res, application) {

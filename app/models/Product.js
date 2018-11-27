@@ -43,6 +43,11 @@ class Product {
     this._connection.query(stm, callback);
   }
 
+  deletePFs(idProduto, callback) {// deleta todos os pfs para este produto
+    const stm = `delete from product_flavor where product = ${idProduto}`;
+    this._connection.query(stm, callback);
+  }
+
 }
 
 module.exports = function () {
