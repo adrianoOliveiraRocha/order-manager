@@ -88,57 +88,52 @@
 
                   <% if(data.unique_flavor == 1){ %>
                   <!-- price  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço R$</label>
+                  <div id="previousUniqueFlavor">
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço R$</label>
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="Preço" id="price" name="price" value="<%=data.price%>" onkeyup="replacePoint(this);">
+                      </div>
                     </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" 
-                      placeholder="Preço" id="price" name="price" value="<%=data.price%>"
-                      onkeyup="replacePoint(this);">
+                    <hr>
+                    <!-- small price  -->
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Pequeno R$</label>
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price" value="<%=data.small_price%>"
+                          onkeyup="replacePoint(this);">
+                      </div>
                     </div>
-                  </div>
-                  <hr>
-                  <!-- small price  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Pequeno R$</label>
+                    <hr>
+                    <!-- large price  -->
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Grande R$</label>
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price" value="<%=data.large_price%>"
+                          onkeyup="replacePoint(this);">
+                      </div>
                     </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" 
-                      placeholder="Preço Pequeno" id="small_price" 
-                      name="small_price" value="<%=data.small_price%>"
-                      onkeyup="replacePoint(this);">
+                    <hr>
+                    <!-- promotional price  -->
+                    <div class="row">
+                      <div class="col-sm-3" style="text-align: center">
+                        <label class="form-control">Preço Promocional R$</label>
+                      </div>
+                      <div class="col-sm-3">
+                        <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price" value="<%=data.promotional_price%>"
+                          onkeyup="replacePoint(this);">
+                      </div>
                     </div>
-                  </div>
-                  <hr>
-                  <!-- large price  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Grande R$</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" 
-                      placeholder="Preço Grande" id="large_price" 
-                      name="large_price" value="<%=data.large_price%>"
-                      onkeyup="replacePoint(this);">
-                    </div>
-                  </div>
-                  <hr>
-                  <!-- promotional price  -->
-                  <div class="row">
-                    <div class="col-sm-3" style="text-align: center">
-                      <label class="form-control">Preço Promocional R$</label>
-                    </div>
-                    <div class="col-sm-3">
-                      <input type="text" class="form-control" 
-                      placeholder="Preço Promocional" id="price" 
-                      name="promotional_price" value="<%=data.promotional_price%>"
-                      onkeyup="replacePoint(this);">
-                    </div>
-                  </div>
-                  <hr>
+                    <hr>
+                  </div>                  
                   <% } %>
+
                   <% if(data.image !== 'null'){ %>
                   <!-- image  -->
                   <div class="row">

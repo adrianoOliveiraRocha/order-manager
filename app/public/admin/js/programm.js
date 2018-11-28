@@ -1,51 +1,11 @@
-function clearUnits() {
-  document.getElementById('quantity').value = '';
-  document.getElementById('color').value = '';
-  document.getElementById('size').value = '';
-}
-
-function saveUnits() {
-  var contentUnit = document.getElementById('contentUnit'); //table
-  var content = contentUnit.innerHTML;
-  let quantity = document.getElementById('quantity').value;
-  let color = document.getElementById('color').value;
-  let size = document.getElementById('size').value;
-  let rows = contentUnit.rows;
-  // define id of rows
-  var count = 0;  
-  for(let row of rows){
-    count ++;
-  } 
-
-  response = `
-  <tr id='${count}' style='text-align: center;'>
-    <td>${msgQuantity(quantity)}</td>
-    <td>
-    <ul><li style='background: ${color}; list-style-type:none;'>${color}</li></ul>
-    </td>
-    <td>Tamanho ${size}</td>
-    <td><input type="button" class="form-control btn btn-info" value="Editar"></td>
-    <td><input type="button" class="form-control btn btn-danger" value="Excluir"></td>
-  </tr>
-  `;
-  
-  contentUnit.innerHTML = response + content;
-
-}
-
-function msgQuantity(quantity) {
-  quantity = parseInt(quantity);
-  if (quantity === 1) {
-    return `${quantity} unidade`;
-  } else if (quantity > 1) {
-    return `${quantity} unidades`;
-  }
-}
-
 function replacePoint(element) {
   element.value = element.value.replace(",", ".");
 }
 
+/** 
+ * These functions is related to products that have more than one flavor
+ * please don't change nothing here
+ */
 function uniqueFlavor(value) {
   var uf = `
   <div class="row">
@@ -249,12 +209,11 @@ function changeUniqueFlavor(value) {
     `;
     document.getElementById('uniqueFlavor').innerHTML = myFields;
     
-  } else {
-    // it changing buttons
-    var buttons = document.getElementById('buttons');    
+  } else { // 0 it have not unique flavor
+    var buttons = document.getElementById('buttons');
     var div = document.createElement('div');
-    div.id = 'editPrice';  
-    const idProduct = document.getElementById('idProduct').value;  
+    div.id = 'editPrice';
+    const idProduct = document.getElementById('idProduct').value;
     const content = `<div class="col-sm-2" style="text-align: center">
                         <a class="form-control btn btn-warning"
                         href="/show_prices?idProduct=` + idProduct + `">
@@ -262,10 +221,9 @@ function changeUniqueFlavor(value) {
                         </a>
                       </div>`;
     div.innerHTML = content;
-    buttons.appendChild(div); 
+    buttons.appendChild(div);
     document.getElementById('uniqueFlavor').innerHTML = '';
     //to delete others fields
-
   }
 }
 
@@ -347,3 +305,7 @@ function cancelPF(element) {
   var div = element.parentNode.parentNode.parentNode.parentNode;
   div.remove();
 }
+
+/** End to functions relacted to products that have 
+ * more than one flavor 
+ */

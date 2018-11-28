@@ -204,7 +204,7 @@ module.exports.detail = function (req, res, application) {
                 res.send(errorPF.sqlMessage);
               } else {
                 console.log(resultPF);
-                res.render('admin/product/detail.ejs', {
+                res.render('admin/product/detailmof.ejs', {
                   data: product,
                   msg: msg,
                   categories: categories,
@@ -250,7 +250,9 @@ module.exports.edit = function (req, res, application){
             });
           } else {
             if (currentProduct[0].unique_flavor == 1) {
-              editProduct(req, res, product, currentProduct[0]);  
+              editProduct(req, res, product, currentProduct[0]);
+              req.session.message = 'Produto editado com sucesso!';  
+              res.redirect('/exibir_produtos');
             } else {
               editComplexProduct(req, res, product, currentProduct[0]);
             }            
