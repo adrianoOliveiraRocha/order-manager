@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('../includes/linkscssprofile.ejs'); %>
+</head>
+
+<body>
+
+  <%- include('../includes/head.ejs'); %>
+
+  <div class="page-content">
+    <div class="row">
+
+      <%- include('../includes/leftcolumn.ejs'); %>
+
+      <div class="col-md-10">
+
+        <% if(msg){ %>
+        <div class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Sucesso!</strong>
+          <%=msg%>
+        </div>
+        <% } %>
+
+        <div class="row">
+
+          <div class="col-md-12 panel-info">
+            <div class="content-box-header panel-heading">
+              <div class="panel-title ">Produto <%=data.title%></div>
+
+              <div class="panel-options">
+                <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
+                <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+              </div>
+
+            </div>
+
+            <div class="content-box-large box-with-header">
+
+              <%- include('../includes/validation.ejs'); %>
+              <form action="/save" method="POST" enctype="multipart/form-data">
+                <!-- name  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Nome</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" placeholder="Nome" 
+                    id="title" name="title" value="<%=data.title%>">
+                  </div>
+                </div>
+                <hr>
+
+                <!-- description  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Descrição</label>
+                  </div>
+                  <div class="col-sm-9">
+                    <textarea type="text" class="form-control" placeholder="Descrição" id="description" name="description"
+                      rows="3" wrap="hard">
+                    <%=data.description%>
+                    </textarea>
+                  </div>
+                </div>
+                <hr>
+
+                <!-- image  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Imagem</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="file" class="form-control" id="image" name="image">
+                  </div>
+                </div>
+                <hr>
+                <!-- category -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Categoria</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <select name="category" id="category" class="form-control">
+                      <% for(const category of categories){ %>
+                      <option value="<%=category.id %>">
+                        <%=category.title %>
+                      </option>
+                      <% } %>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+
+                <!-- unique flavor -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Sabor Único</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <select name="uniqueFlavior" class="form-control" onchange="uniqueFlavor(this.value);">
+                      <option value="1">Sim</option>
+                      <option value="0">Não</option>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+
+                <div id="uniqueFlavor">
+                  <!-- price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço R$</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço" id="price" name="price" onkeyup="replacePoint(this);" />
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- small price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço Pequeno R$</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price"
+                        onkeyup="replacePoint(this);">
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- large price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço Grande R$</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price"
+                        onkeyup="replacePoint(this);">
+                    </div>
+                  </div>
+                  <hr>
+                  <!-- promotional price  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Preço Promocional R$</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price"
+                        onkeyup="replacePoint(this);">
+                    </div>
+                  </div>
+                  <hr>
+
+                </div> <!-- end only flavor -->
+
+                <div id="moreFlavor">
+
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-2" style="text-align: center">
+                    <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                  </div>
+
+                </div>
+                <hr>
+
+              </form>
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <%- include('../includes/footer.ejs'); %>
+
+    <%- include('../includes/linksjsprofile.ejs'); %>
+
+</body>
+
+</html>

@@ -309,3 +309,10 @@ function cancelPF(element) {
 /** End to functions relacted to products that have 
  * more than one flavor 
  */
+
+// ------------------------**------------------------**------------------------ //
+
+ /** 
+  * From now here I have functions related to products that have one flavor. 
+  * Please take care with this :-(
+  */

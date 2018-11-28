@@ -189,7 +189,7 @@ module.exports.detail = function (req, res, application) {
         } else {
           var product = products[0];
           if (product.unique_flavor == 1) { //This product have only one flavor
-            res.render('admin/product/detail.ejs', {
+            res.render('admin/product/detailof.ejs', {
               data: product,
               msg: msg,
               categories: categories,
