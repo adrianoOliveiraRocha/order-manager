@@ -146,25 +146,36 @@
                     </div>
                   </div>
                   <hr>
-                  <% } %>
 
                   <!-- changeImage  -->
                   <div class="row">
                     <div class="col-sm-3" style="text-align: center">
                       <label class="form-control">
                         <% if(data.image !== 'null') { %>
-                          Substituir Imagem
+                        Substituir Imagem
                         <% }else{ %>
-                          Imagem
+                        Imagem
                         <% } %>
                       </label>
                     </div>
                     <div class="col-sm-3">
-                      <input type="file" class="form-control" 
-                      name="changeImage">
+                      <input type="file" class="form-control" name="changeImage">
                     </div>
                   </div>
                   <hr>
+
+                  <% } else {%>
+                  <!-- image  -->
+                  <div class="row">
+                    <div class="col-sm-3" style="text-align: center">
+                      <label class="form-control">Imagem</label>
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="file" class="form-control" id="image" name="image">
+                    </div>
+                  </div>
+                  <hr>
+                  <% } %>                  
 
                   <!-- category -->
                   <div class="row">

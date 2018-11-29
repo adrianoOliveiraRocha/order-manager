@@ -489,3 +489,41 @@ module.exports.delete = function (req, res, application) {
   });
 
 }
+
+module.exports.editPUF = function (req, res, application) {
+  const msg = req.session.message;
+  req.session.message = '';
+  var data = req.body;
+  console.log(data);
+  const idProduct = data.idProduct;
+  const connection = application.config.connect();
+  const product = new application.app.models.Product(connection);
+  product.getThis(idProduct, function (errorProduct, currentProduct) {
+    if (errorProduct) {
+      res.send('Ploblem when searching for product: ' + errorProduct.sqlMessage);
+    } else {
+      const category = new application.app.models.Category(connection);
+      category.getAllCategories(function(errorCategories, categories){
+        if (errorCategories) {
+          res.send(`Problem searching for categories: ${errorCategories.sqlMessage}`);
+        } else {
+          data.image = currentProduct[0].image;
+          req.assert('title', 'O campo título é obrigatório!').notEmpty();
+          var errors = req.validationErrors();
+          if (errors) {
+            res.render('admin/product/detailof.ejs', {
+              data: data,
+              validation: errors,
+              categories: categories,
+              msg: msg
+            });
+          } else {
+            res.send('No errors');
+          }
+        }
+      });
+    }
+  });
+
+  
+}

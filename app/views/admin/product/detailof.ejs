@@ -12,6 +12,7 @@
   <%- include('../includes/head.ejs'); %>
 
   <div class="page-content">
+    
     <div class="row">
 
       <%- include('../includes/leftcolumn.ejs'); %>
@@ -42,8 +43,9 @@
             <div class="content-box-large box-with-header">
 
               <%- include('../includes/validation.ejs'); %>
-              <form action="/save" method="POST" enctype="multipart/form-data">
+              <form action="/editpuf" method="POST" enctype="multipart/form-data">
                 <!-- name  -->
+                <input type="hidden" name="idProduct" value="<%=data.id%>">
                 <div class="row">
                   <div class="col-sm-3" style="text-align: center">
                     <label class="form-control">Nome</label>
@@ -69,6 +71,18 @@
                 </div>
                 <hr>
 
+                <% if(data.image !== 'null'){ %>
+                <!-- image  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">Imagem</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <img src="/upload/product_images/<%=data.image %>" width="240px;">
+                  </div>
+                </div>
+                <hr>
+                <% } else {%>
                 <!-- image  -->
                 <div class="row">
                   <div class="col-sm-3" style="text-align: center">
@@ -79,6 +93,8 @@
                   </div>
                 </div>
                 <hr>
+                <% } %>
+
                 <!-- category -->
                 <div class="row">
                   <div class="col-sm-3" style="text-align: center">
@@ -87,7 +103,8 @@
                   <div class="col-sm-3">
                     <select name="category" id="category" class="form-control">
                       <% for(const category of categories){ %>
-                      <option value="<%=category.id %>">
+                      <option value="<%=category.id %>" <% if(data.category==category.id){ %>selected="selected"
+                        <%}%>>
                         <%=category.title %>
                       </option>
                       <% } %>
@@ -117,7 +134,9 @@
                       <label class="form-control">Preço R$</label>
                     </div>
                     <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço" id="price" name="price" onkeyup="replacePoint(this);" />
+                      <input type="text" class="form-control" placeholder="Preço" 
+                      id="price" name="price" onkeyup="replacePoint(this);"
+                      value="<%=data.price%>" />
                     </div>
                   </div>
                   <hr>
@@ -127,7 +146,8 @@
                       <label class="form-control">Preço Pequeno R$</label>
                     </div>
                     <div class="col-sm-3">
-                      <input type="text" class="form-control" placeholder="Preço Pequeno" id="small_price" name="small_price"
+                      <input type="text" class="form-control" placeholder="Preço Pequeno" 
+                      id="small_price" name="small_price" value="<%=data.small_price%>"
                         onkeyup="replacePoint(this);">
                     </div>
                   </div>
@@ -139,7 +159,7 @@
                     </div>
                     <div class="col-sm-3">
                       <input type="text" class="form-control" placeholder="Preço Grande" id="large_price" name="large_price"
-                        onkeyup="replacePoint(this);">
+                        onkeyup="replacePoint(this);" value="<%=data.large_price%>">
                     </div>
                   </div>
                   <hr>
@@ -150,7 +170,7 @@
                     </div>
                     <div class="col-sm-3">
                       <input type="text" class="form-control" placeholder="Preço Promocional" id="price" name="promotional_price"
-                        onkeyup="replacePoint(this);">
+                        onkeyup="replacePoint(this);" value="<%=data.promotional_price%>">
                     </div>
                   </div>
                   <hr>
@@ -163,24 +183,20 @@
 
                 <div class="row">
                   <div class="col-sm-2" style="text-align: center">
-                    <input class="form-control btn btn-primary" type="submit" value="Salvar" />
+                    <input class="form-control btn btn-primary" type="submit" value="Editar" />
                   </div>
-
+                  <div class="col-sm-2" style="text-align: center">
+                    <a class="form-control btn btn-danger">
+                      Deletar
+                    </a>
+                  </div>
                 </div>
                 <hr>
-
               </form>
-
-
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     </div>
 
     <%- include('../includes/footer.ejs'); %>
