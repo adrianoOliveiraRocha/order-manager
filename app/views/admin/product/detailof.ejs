@@ -44,8 +44,10 @@
 
               <%- include('../includes/validation.ejs'); %>
               <form action="/editpuf" method="POST" enctype="multipart/form-data">
+
+                <input type="hidden" name="idProduct" value="<%=idProduct%>">
+
                 <!-- name  -->
-                <input type="hidden" name="idProduct" value="<%=data.id%>">
                 <div class="row">
                   <div class="col-sm-3" style="text-align: center">
                     <label class="form-control">Nome</label>
@@ -79,6 +81,22 @@
                   </div>
                   <div class="col-sm-3">
                     <img src="/upload/product_images/<%=data.image %>" width="240px;">
+                  </div>
+                </div>
+                <hr>
+                <!-- changeImage  -->
+                <div class="row">
+                  <div class="col-sm-3" style="text-align: center">
+                    <label class="form-control">
+                      <% if(data.image !== 'null') { %>
+                      Substituir Imagem
+                      <% }else{ %>
+                      Imagem
+                      <% } %>
+                    </label>
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="file" class="form-control" name="changeImage">
                   </div>
                 </div>
                 <hr>

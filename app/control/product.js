@@ -194,7 +194,8 @@ module.exports.detail = function (req, res, application) {
               msg: msg,
               categories: categories,
               validation: {},
-              pfs: {}
+              pfs: {}, 
+              idProduct: product.id,
             });
           } else { //This product have more than one flavor
             var product = products[0];
@@ -348,9 +349,13 @@ function editProduct(req, res, product, currentProduct) {
     }
 
     if (Object.keys(req.files).length > 0) {
-      
+      for (const key in req.files) {
+        console.log(`value: ${req.files[key]}`);
+      }
       let prefix = new Date().getTime() + '_';
+      // if there is a previous file this field exists
       imageName = prefix + req.files.changeImage.name;
+      
       let image = req.files.changeImage;
 
       if (changed == true) {
@@ -493,9 +498,7 @@ module.exports.delete = function (req, res, application) {
 module.exports.editPUF = function (req, res, application) {
   const msg = req.session.message;
   req.session.message = '';
-  var data = req.body;
-  console.log(data);
-  const idProduct = data.idProduct;
+  const idProduct = req.body.idProduct;
   const connection = application.config.connect();
   const product = new application.app.models.Product(connection);
   product.getThis(idProduct, function (errorProduct, currentProduct) {
@@ -507,7 +510,9 @@ module.exports.editPUF = function (req, res, application) {
         if (errorCategories) {
           res.send(`Problem searching for categories: ${errorCategories.sqlMessage}`);
         } else {
+          var data = req.body;
           data.image = currentProduct[0].image;
+          const idProduct = currentProduct[0].id; 
           req.assert('title', 'O campo título é obrigatório!').notEmpty();
           var errors = req.validationErrors();
           if (errors) {
@@ -515,10 +520,13 @@ module.exports.editPUF = function (req, res, application) {
               data: data,
               validation: errors,
               categories: categories,
-              msg: msg
+              msg: msg, 
+              idProduct: idProduct,
             });
           } else {
-            res.send('No errors');
+            editProduct(req, res, product, currentProduct[0]);
+            req.session.message = 'Operação realizada com sucesso'
+            res.redirect('/exibir_produtos');
           }
         }
       });

@@ -15,7 +15,6 @@ class Product {
 
   getThis(id, callback) {
     let stm = `select * from product where id = ${id}`;
-    console.log(stm);
     this._connection.query(stm, callback);
   }
 
