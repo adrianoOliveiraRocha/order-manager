@@ -526,7 +526,7 @@ module.exports.editPUF = function (req, res, application) {
             if (data.uniqueFlavior == 1) {
               editProduct(req, res, product, currentProduct[0]);  
             } else {
-              editProductChangeToMF(req, res, product, currentProduct[0]);
+              editProductChangeToMF(req, res, product, currentProduct[0], application);
             }             
             req.session.message = 'Operação realizada com sucesso'
             res.redirect('/exibir_produtos');
@@ -537,7 +537,7 @@ module.exports.editPUF = function (req, res, application) {
   });  
 }
 
-function editProductChangeToMF(req, res, product, currentProduct) {
+function editProductChangeToMF(req, res, product, currentProduct, application) {
   var data = req.body;
   data.image = currentProduct.image;
 
@@ -630,23 +630,49 @@ function editProductChangeToMF(req, res, product, currentProduct) {
     }
 
     if (changed) {
-      q = q + `, set price = null, small_price = null, large_price = null, promotional_price = null 
+      q = q + `, price = null, small_price = null, large_price = null, promotional_price = null 
       where id = ${currentProduct.id}`; 
             
     } else {
       q = q + `set price = null, small_price = null, large_price = null, promotional_price = null 
       where id = ${currentProduct.id}`;
     }
-
-    product.updateChangeToMF(q, function (error, result) {
+    console.log(q);
+    product.update(q, function (error, result) {
       if (error) {
         console.error('Error trying update product and change to mf' + error.sqlMessage);
       } else {
-        console.log(q);
-       
+        // Nesse ponto, eu preciso criar os preços no banco de dados
+        const productId = currentProduct.id;
+        // this object have only elements of the table product_flavor
+        var product_flavor = {};
+        for (var key in data) {
+          let result = key.search('qf');
+          if (result != -1) {
+            product_flavor[key] = data[key];
+          }
+        }
+
+        var count = 1
+        var element = {};
+        for (var key in product_flavor) {
+          element[key] = product_flavor[key];
+          if (count % 5 == 0) {// I have a complete element
+            element['product'] = productId;
+            var connection = application.config.connect();
+            var productFlavor = new application.app.models.ProductFlavor(connection);
+            productFlavor.save(element, function (errorPF, resultPF) {
+              if (errorPF) {
+                console.error(`Erro no controlador product linha 666: ${errorPF.sqlMessage}`);
+              } else {
+                console.log(`Salvo com id ${resultPF.insertId}`);
+              }
+            });
+            element = {}
+          }
+          count++;
+        }
       }
     });
-
   }
-
 }
