@@ -349,9 +349,7 @@ function editProduct(req, res, product, currentProduct) {
     }
 
     if (Object.keys(req.files).length > 0) {
-      for (const key in req.files) {
-        console.log(`value: ${req.files[key]}`);
-      }
+      
       let prefix = new Date().getTime() + '_';
       // if there is a previous file this field exists
       imageName = prefix + req.files.changeImage.name;
@@ -391,8 +389,7 @@ function editProduct(req, res, product, currentProduct) {
       
       product.update(q, function(error, result) {
         if (error) {
-          console.error(error.sqlMessage);          
-          res.send(error.sqlMessage);
+          console.error('Error trying update product ' + error.sqlMessage);                
         } else {          
           console.log(result);            
         }
@@ -496,6 +493,7 @@ module.exports.delete = function (req, res, application) {
 }
 
 module.exports.editPUF = function (req, res, application) {
+  console.log('editPUF');
   const msg = req.session.message;
   req.session.message = '';
   const idProduct = req.body.idProduct;
@@ -524,14 +522,131 @@ module.exports.editPUF = function (req, res, application) {
               idProduct: idProduct,
             });
           } else {
-            editProduct(req, res, product, currentProduct[0]);
+            // In this point, i need indentify if the uf was changed
+            if (data.uniqueFlavior == 1) {
+              editProduct(req, res, product, currentProduct[0]);  
+            } else {
+              editProductChangeToMF(req, res, product, currentProduct[0]);
+            }             
             req.session.message = 'Operação realizada com sucesso'
             res.redirect('/exibir_produtos');
           }
         }
       });
     }
-  });
+  });  
+}
 
-  
+function editProductChangeToMF(req, res, product, currentProduct) {
+  var data = req.body;
+  data.image = currentProduct.image;
+
+  req.assert('title', 'O campo título é obrigatório!').notEmpty();
+  var errors = req.validationErrors();
+
+  if (errors) {
+    res.render('admin/product/detail.ejs', {
+      data: data,
+      validation: errors,
+      msg: ''
+    });
+  } else {
+
+    const keys = Object.keys(data);
+    for (const key of keys) {
+      if (data[key] == '') {
+        data[key] = null;
+      }
+    } 
+    
+    let changed = false;
+    let q = `update product set `;
+
+    if (data.title != currentProduct.title) {
+      q = q + `title = '${data.title}' `;
+      changed = true;
+    }
+
+    if (data.description != currentProduct.description) {
+      if (changed == true) {
+        q = q + `, description = '${data.description}' `;
+      } else {
+        q = q + `description = '${data.description}' `;
+        changed = true;
+      }
+    }
+
+    if (data.category != currentProduct.category) {
+      if (changed == true) {
+        q = q + `, category = ${data.category} `;
+      } else {
+        q = q + `category = ${data.category} `;
+        changed = true;
+      }
+    }
+
+    if (data.uniqueFlavior != currentProduct.unique_flavor) {
+      if (changed == true) {
+        q = q + `, unique_flavor = ${data.uniqueFlavior} `;
+      } else {
+        q = q + `unique_flavor = ${data.uniqueFlavior} `;
+        changed = true;
+      }
+    }
+
+    if (Object.keys(req.files).length > 0) {
+
+      let prefix = new Date().getTime() + '_';
+      // if there is a previous file this field exists
+      imageName = prefix + req.files.changeImage.name;
+
+      let image = req.files.changeImage;
+
+      if (changed == true) {
+        q = q + `, image = '${imageName}' `;
+      } else {
+        changed = true;
+        q = q + `image = '${imageName}' `;
+      }
+
+      image.mv(__dirname + '/../public/upload/product_images/' + imageName,
+        function (errmv) {
+          if (errmv) {
+            console.log('error trying upload: ' + errmv.sqlMessage);
+          } else {
+            if (currentProduct.image != null) {
+              let oldFile = __dirname + '/../public/upload/product_images/' + currentProduct.image;
+              const fs = require('fs');
+              fs.unlink(oldFile, function (errul) {
+                if (errul) {
+                  console.log('error trying delete old image:' + errul.sqlMessage);
+                } else {
+                  console.log('Image deleted with success!');
+                }
+              });
+            }
+          }
+        });
+    }
+
+    if (changed) {
+      q = q + `, set price = null, small_price = null, large_price = null, promotional_price = null 
+      where id = ${currentProduct.id}`; 
+            
+    } else {
+      q = q + `set price = null, small_price = null, large_price = null, promotional_price = null 
+      where id = ${currentProduct.id}`;
+    }
+
+    product.updateChangeToMF(q, function (error, result) {
+      if (error) {
+        console.error('Error trying update product and change to mf' + error.sqlMessage);
+      } else {
+        console.log(q);
+       
+      }
+    });
+
+  }
+
 }

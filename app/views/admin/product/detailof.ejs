@@ -45,7 +45,8 @@
               <%- include('../includes/validation.ejs'); %>
               <form action="/editpuf" method="POST" enctype="multipart/form-data">
 
-                <input type="hidden" name="idProduct" value="<%=idProduct%>">
+                <input type="hidden" name="idProduct" id="idProduct" 
+                value="<%=idProduct%>">
 
                 <!-- name  -->
                 <div class="row">
@@ -107,7 +108,7 @@
                     <label class="form-control">Imagem</label>
                   </div>
                   <div class="col-sm-3">
-                    <input type="file" class="form-control" id="image" name="image">
+                    <input type="file" class="form-control" name="changeImage">
                   </div>
                 </div>
                 <hr>
@@ -132,12 +133,13 @@
                 <hr>
 
                 <!-- unique flavor -->
-                <div class="row">
+                <div class="row" id="uf">
                   <div class="col-sm-3" style="text-align: center">
                     <label class="form-control">Sabor Único</label>
                   </div>
                   <div class="col-sm-3">
-                    <select name="uniqueFlavior" class="form-control" onchange="uniqueFlavor(this.value);">
+                    <select name="uniqueFlavior" class="form-control" 
+                    onchange="uniqueFlavorUF(this.value);">
                       <option value="1">Sim</option>
                       <option value="0">Não</option>
                     </select>

@@ -316,3 +316,32 @@ function cancelPF(element) {
   * From now here I have functions related to products that have one flavor. 
   * Please take care with this :-(
   */
+
+function uniqueFlavorUF(value) {
+  
+  var mf = `
+  <div id='receiveAdd' class="row">
+
+  </div>
+  
+  <div class="row">
+    
+    <div class="col-sm-2">
+      <input type="button" class="form-control btn-success" 
+      value="Adicionar Preço" onclick='add();'>
+    </div>    
+
+  </div>
+  <hr>  
+  `;
+
+  if (value == 1) {
+    // The page will need to be readed again
+    var idProduct = document.getElementById('idProduct').value;
+    window.location.href = "/detalhes_produto?id=" + idProduct;
+  } else if (value == 0) {
+    document.getElementById('uniqueFlavor').innerHTML = '';
+    document.getElementById('moreFlavor').innerHTML = mf;
+  }
+
+}
