@@ -21,7 +21,7 @@ module.exports.login = function (req, res, application) {
       var connection = application.config.connect();
       var user = new application.app.models.User(connection);
       user.auth(data, function (error, result) {
-        if (error !== null && error.fatal == true) {
+        if (error) {
           res.send(error.sqlMessage);
         } else {
           if (result.length > 0) { // user exists
@@ -94,11 +94,12 @@ module.exports.signup = function (req, res, application) {
   }
 }
 
-module.exports.admin = function (req, res, applicationl) {
+module.exports.admin = function (req, res, application) {
 
   if (req.session.loged && req.session.user.is_staff === 1
     && req.session.user.is_active === 1) {
-    res.render('admin/index.ejs');
+    res.redirect('/exibir_produtos');
+    // res.render('admin/index.ejs');
   } else {
     let msg = "Desculpe, você não tem permissão para acessar essa página";
     res.render('core/error/index.ejs', { msg: msg });
